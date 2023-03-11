@@ -2,7 +2,7 @@ import type {h} from 'vue'
 
 export type renderType = typeof h
 
-export type cloumnItemType = {
+export type columnItemType = {
    title:string // 列名
    dataIndex?:string // table data key 值 
    width?:number // 列 宽度

@@ -8,10 +8,17 @@
         height: cellSize(props.height),
         textAlign: item.align || 'center',
       }"
-       @click="changeSortStatus(item.dataIndex||'')"
+      @click="changeSortStatus(item)"
     >
       <h5-table-cell :key="index" :dataValue="item.title" />
-      <span v-if="item.sortable&&item.dataIndex" :class="['table-caret-wrapper',sortStatus[item.dataIndex]===1 ? 'isascending' : '',sortStatus[item.dataIndex]===2 ? 'isdescending' : '',]">
+      <span
+        v-if="item.sortable && item.dataIndex"
+        :class="[
+          'table-caret-wrapper',
+          sortStatus[item.dataIndex] === 1 ? 'is-ascending' : '',
+          sortStatus[item.dataIndex] === 2 ? 'is-descending' : '',
+        ]"
+      >
         <i class="sort-caret ascending"></i>
         <i class="sort-caret descending"></i>
       </span>
@@ -19,54 +26,47 @@
   </div>
 </template>
 <script lang="ts" setup name="H5TableHeader">
-import { ref, onMounted,reactive } from "vue";
-import type { cloumnItemType,sortStatusType } from "../types";
+import { ref, onMounted, reactive } from "vue";
+import type { columnItemType, sortStatusType } from "../types";
 import h5TableCell from "./h5-table-cell";
-import {cellSize} from '../utils'
+import { cellSize } from "../utils";
 
 type propsType = {
-  column: Array<cloumnItemType>;
+  column: Array<columnItemType>;
   height?: number;
 };
 
-
 type emitType = {
-  (e:'handleHeadSortClick',propKey:string,type:sortStatusType):void
-}
+  (e: "handleHeadSortClick", propKey: string, type: sortStatusType): void;
+};
 
-const sortStatus = reactive<{[p:string]:sortStatusType}>({})
-
-
-
-
+const sortStatus = ref<{ [p: string]: sortStatusType }>({});
 
 const props = withDefaults(defineProps<propsType>(), {
   column: () => [],
   height: 60,
 });
 
-const emits = defineEmits<emitType>()
+const emits = defineEmits<emitType>();
 
 const titleRef = ref<HTMLElement | null>(null);
 
+const changeSortStatus = (item: columnItemType) => {
+  if (!item.dataIndex || !item.sortable) return;
 
-const changeSortStatus = (propsKey:string)=>{
-  if(!propsKey) return 
-  
-  for(let item in sortStatus){
-    if(item !==propsKey){
-      sortStatus[item] = 0
-    }
+  if (!sortStatus.value[item.dataIndex]) {
+    sortStatus.value = {
+      [item.dataIndex]: 0,
+    };
   }
-
-
-  if(!sortStatus[propsKey]){
-    sortStatus[propsKey] = 0
-  }
-  sortStatus[propsKey] = (sortStatus[propsKey]+1)%3 as sortStatusType
-  emits('handleHeadSortClick',propsKey,sortStatus[propsKey])
-}
-
+  sortStatus.value[item.dataIndex] = ((sortStatus.value[item.dataIndex] + 1) %
+    3) as sortStatusType;
+  emits(
+    "handleHeadSortClick",
+    item.dataIndex,
+    sortStatus.value[item.dataIndex]
+  );
+};
 
 defineExpose({
   titleRef,
@@ -108,11 +108,11 @@ defineExpose({
       border-top-color: #c0c4cc;
       bottom: 0;
     }
-    .isascending .ascending{
-      border-bottom-color: #309FEA;
+    .is-ascending .ascending {
+      border-bottom-color: #309fea;
     }
-    .isdescending .descending{
-      border-top-color: #309FEA;
+    .is-descending .descending {
+      border-top-color: #309fea;
     }
   }
   .first-table-row-column {

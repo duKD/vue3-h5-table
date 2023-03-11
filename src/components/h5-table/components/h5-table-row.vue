@@ -2,7 +2,7 @@
   <section class="table-row">
     <div
       v-for="(item, index) in props.column"
-      :class="['table-row-column',index === 0 ? 'first-table-row-column' : '']"
+      :class="['table-row-column', index === 0 ? 'first-table-row-column' : '']"
       :style="{
         width: cellSize(item.width),
         height: cellSize(props.height),
@@ -11,7 +11,7 @@
     >
       <h5-table-cell
         :key="index"
-        :dataValue="item.dataIndex?props.dataItem[item.dataIndex]:''"
+        :dataValue="item.dataIndex ? props.dataItem[item.dataIndex] : ''"
         :dataItem="props.dataItem"
         :render="item.render"
         :slotKey="item.slotKey"
@@ -23,21 +23,20 @@
 <script lang="ts" setup name="H5TableRow">
 import h5TableCell from "./h5-table-cell";
 import { onMounted, computed } from "vue";
-import type {SetupContext} from 'vue';
-import type { cloumnItemType } from "../types";
-import {cellSize} from '../utils'
+import type { SetupContext } from "vue";
+import type { columnItemType } from "../types";
+import { cellSize } from "../utils";
 
 type propsType = {
-  column: Array<cloumnItemType>;
+  column: Array<columnItemType>;
   dataItem: any;
   height: number;
-  slots: SetupContext['slots']
+  slots: SetupContext["slots"];
 };
 
 const props = withDefaults(defineProps<propsType>(), {
   column: () => [],
 });
-
 </script>
 <style lang="scss" scoped>
 .table-row {
@@ -52,8 +51,8 @@ const props = withDefaults(defineProps<propsType>(), {
   align-items: center;
   border-bottom: 1px solid #f4f4f4;
 }
-.first-table-row-column{
-    flex-grow: 0;
+.first-table-row-column {
+  flex-grow: 0;
 }
 
 .cell {

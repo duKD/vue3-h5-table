@@ -4,7 +4,7 @@
       ref="h5TableRef"
       :fixed-header="true"
       :column="column"
-      :table-datas="[...datas, ...datas, ...datas]"
+      :table-datas="tableDatas"
       @row-click="rowClick"
       @handle-head-sort-click="handleHeadSortClick"
     >
@@ -60,15 +60,16 @@
 <script setup lang="ts">
 import { H5Table } from "@/components/h5-table";
 import type {
-  cloumnItemType,
+  columnItemType,
   sortStatusType,
 } from "@/components/h5-table/types";
-import { watchEffect, ref } from "vue";
+import { watchEffect, ref, watch } from "vue";
 import { cellSize } from "@/components/h5-table/utils";
 
-const column: Array<cloumnItemType> = [
+const column: Array<columnItemType> = [
   {
-    title: "名称/市值",
+    title: "班费/总值",
+    key: "id",
     dataIndex: "nameAndMarkValue",
     width: 250,
     slotKey: "title",
@@ -86,7 +87,7 @@ const column: Array<cloumnItemType> = [
     title: "现价/成本",
     slotKey: "curAndCost",
     dataIndex: "curAndCost",
-    sortable: true,
+    // sortable: true,
     width: 200,
     align: "right",
   },
@@ -105,9 +106,10 @@ const column: Array<cloumnItemType> = [
 
 const datas = [
   {
-    select: "中国移动",
+    id: 0,
+    select: "三年二班",
     type: 1,
-    position: "27,000",
+    position: "27000",
     use: "5,000",
     markValue: "500,033.341",
     cur: "30.004",
@@ -118,10 +120,11 @@ const datas = [
     count: "120,121",
   },
   {
-    select: "沃尔德",
+    id: 1,
+    select: "四年一班",
     type: 1,
     markValue: "23,933.341",
-    position: "27,000",
+    position: "28000",
     use: "5,000",
     newPrice: 20,
     cur: "30.004",
@@ -131,21 +134,23 @@ const datas = [
     count: "120,121",
   },
   {
-    select: "招商证券",
+    id: 2,
+    select: "三年二班",
     markValue: "500,033,341",
     newPrice: 20,
     cur: "30.004",
     cost: "32.453",
-    position: "27,000",
+    position: "27300",
     use: "5,000",
     float: "+18,879.09",
     profit: "-5.45%",
     count: "120,121",
   },
   {
-    select: "招商证券",
+    id: 3,
+    select: "五年二班",
     markValue: "500,033,341",
-    position: "27,000",
+    position: "27000",
     use: "5,000",
     cur: "30.004",
     cost: "32.453",
@@ -155,9 +160,49 @@ const datas = [
     count: "120,121",
   },
   {
-    select: "招商证券",
+    id: 4,
+    select: "一年二班",
     markValue: "500,033,341",
-    position: "27,000",
+    position: "27000",
+    use: "5,000",
+    newPrice: 20,
+    cur: "30.004",
+    cost: "32.453",
+    float: "+18,879.09",
+    profit: "-5.45%",
+    count: "120,121",
+  },
+  {
+    id: 5,
+    select: "六年三班",
+    markValue: "500,033,341",
+    position: "37000",
+    use: "5,000",
+    newPrice: 20,
+    cur: "30.004",
+    cost: "32.453",
+    float: "+18,879.09",
+    profit: "-5.45%",
+    count: "120,121",
+  },
+  {
+    id: 6,
+    select: "六年二班",
+    markValue: "500,033,341",
+    position: "37000",
+    use: "5,000",
+    newPrice: 20,
+    cur: "30.004",
+    cost: "32.453",
+    float: "+18,879.09",
+    profit: "-5.45%",
+    count: "120,121",
+  },
+  {
+    id: 7,
+    select: "六年五班",
+    markValue: "500,033,341",
+    position: "37000",
     use: "5,000",
     newPrice: 20,
     cur: "30.004",
@@ -168,13 +213,13 @@ const datas = [
   },
 ];
 
+const tableDatas = ref<Array<any>>(JSON.parse(JSON.stringify(datas)));
+
 const rowDownMarkTop = ref<number>(0);
 
 const h5TableRef = ref<typeof H5Table | null>(null);
 
 const rowClick = (item: any, index: number) => {
-  console.log("rowClick====");
-
   rowDownMarkTop.value = (index + 1) * 100 + 60;
   if (h5TableRef.value) {
     h5TableRef.value.handleDom(60, index);
@@ -183,22 +228,38 @@ const rowClick = (item: any, index: number) => {
 
 //处理排序
 const handleHeadSortClick = (propsKey: string, type: sortStatusType) => {
-  console.log("handleHeadSortClick====", propsKey, type);
+  rowDownMarkTop.value = 0;
+  if (h5TableRef.value) {
+    h5TableRef.value.handleDom(60, -1);
+  }
+  if (type === 0) {
+    tableDatas.value.splice(0, tableDatas.value.length, ...datas);
+    return;
+  }
+  if (propsKey === "positionAndUse") {
+    if (type === 1) {
+      tableDatas.value.sort((a, b) => Number(b.position) - Number(a.position));
+    } else {
+      tableDatas.value.sort((a, b) => Number(a.position) - Number(b.position));
+    }
+  }
 };
+
+watch(tableDatas.value, () => {
+  console.log("watch====", tableDatas);
+});
 
 const handelSell = () => {
   console.log("handelSell====");
 };
-
-watchEffect(() => {});
 </script>
 <style>
-body{
+body {
   padding: 0;
   margin: 0 !important;
-}</style>
+}
+</style>
 <style lang="scss" scoped>
-
 .position {
   font-size: 24px;
   .nameAndMarkValue {
@@ -214,7 +275,7 @@ body{
         transform: translateY(-50%);
         right: -40px;
         display: inline-block;
-        font-size:24px;
+        font-size: 24px;
         border: 1px solid #ff858d;
         padding: 0 4px;
         color: #ff858d;
