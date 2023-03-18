@@ -97,6 +97,13 @@
       >
       </h5-table-row>
     </section>
+    <section
+      class="loading"
+      @click="tryAgain"
+      v-show="props.disable && loadingText.length > 0"
+    >
+      {{ loadingText }}
+    </section>
     <slot name="rowDownMark"></slot>
   </div>
 </template>
@@ -124,11 +131,22 @@ type propstype = {
   column: Array<columnItemType>;
   tableDatas: Array<any>;
   fixedHeader?: boolean; // 是否固定表头
+  disable?: boolean; // 是否启用下拉加载
+  error?: boolean; // 数据加载失败
+  loading?: boolean; // 数据处于加载状态
+  finish?: boolean; // 数据 是否完全加载
+  loadingText?: string; // 加载文案
+  errorText?: string; // 失败文案
+  finishedText?: string; // 完成文案
+  offset?: number; //触发加载的底部距离
 };
 
 type emitType = {
   (e: "rowClick", item: any, index: number): void;
   (e: "handleHeadSortClick", propKey: string, type: sortStatusType): void;
+  (e: "update:loading", val: boolean): void;
+  (e: "update:error", val: boolean): void;
+  (e: "load"): void;
 };
 
 const distanTableX = ref<string>("");
@@ -145,9 +163,66 @@ const props = withDefaults(defineProps<propstype>(), {
   rowHeight: 100,
   tableDatas: () => [],
   fixedHeader: true,
+  disable: false, // 是否启用下拉加载
+  error: false, // 数据加载失败
+  loading: false, // 数据处于加载状态
+  finish: false, // 数据 是否完全加载
+  loadingText: "加载中...", // 加载文案
+  errorText: "出错了", // 失败文案
+  finishedText: "到底了", // 完成文案
+  offset: 10,
 });
 
 const emits = defineEmits<emitType>();
+
+const disable = computed(() => props.disable);
+
+const loading = computed({
+  get() {
+    return props.loading;
+  },
+  set(val: boolean) {
+    emits("update:loading", val);
+  },
+});
+
+const error = computed({
+  get() {
+    return props.error;
+  },
+  set(val: boolean) {
+    emits("update:error", val);
+  },
+});
+
+const loadingText = computed(() => {
+  let str = "";
+  if (loading.value) {
+    str = props.loadingText;
+  }
+  if (props.finish) {
+    str = props.finishedText;
+  }
+  if (error.value) {
+    str = props.errorText;
+  }
+  return str;
+});
+
+const bottomEvent = () => {
+  if (props.finish) return;
+  if (!loading.value) {
+    loading.value = true;
+    emits("load");
+  }
+};
+
+const tryAgain = () => {
+  if (error.value) {
+    error.value = false;
+    emits("load");
+  }
+};
 
 const handleClick = (item: any, index: number) => {
   //只有 左右 上下 移动 都在 20像素之内 才判定 用户点击
@@ -214,7 +289,10 @@ const firstColumn = computed(() => {
 const [transformX, distanX, distanY] = useGetTransformX(
   tableRef,
   tablewidth,
-  tablecontent
+  tablecontent,
+  disable,
+  bottomEvent,
+  props.offset
 );
 
 watchEffect(() => {
@@ -298,5 +376,8 @@ defineExpose({
     overflow: hidden;
     text-overflow: ellipsis;
   }
+}
+.loading {
+  text-align: center;
 }
 </style>

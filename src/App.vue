@@ -7,6 +7,11 @@
       :table-datas="tableDatas"
       @row-click="rowClick"
       @handle-head-sort-click="handleHeadSortClick"
+      v-model:error="error"
+      v-model:loading="loading"
+      :finish="finish"
+      @load="onload"
+      disable
     >
       <template #title="item">
         <section class="nameAndMarkValue">
@@ -218,6 +223,23 @@ const tableDatas = ref<Array<any>>(JSON.parse(JSON.stringify(datas)));
 const rowDownMarkTop = ref<number>(0);
 
 const h5TableRef = ref<typeof H5Table | null>(null);
+
+const loading = ref<boolean>(false);
+const error = ref<boolean>(false);
+const finish = ref<boolean>(false);
+
+const onload = () => {
+  console.log("loading====");
+  // setTimeout(() => {
+  //   loading.value = false;
+  // }, 1000);
+  // setTimeout(() => {
+  //   error.value = true;
+  // }, 1000);
+  setTimeout(() => {
+    finish.value = true;
+  }, 1000);
+};
 
 const rowClick = (item: any, index: number) => {
   rowDownMarkTop.value = (index + 1) * 100 + 60;
