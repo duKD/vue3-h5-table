@@ -49,7 +49,10 @@ export default function useGetTransformX(
         event.stopPropagation();
       }
     }
-    handleBottom();
+
+    if (distanY.value <= 0) {
+      handleBottom();
+    }
   };
 
   onMounted(() => {

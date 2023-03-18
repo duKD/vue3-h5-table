@@ -230,15 +230,15 @@ const finish = ref<boolean>(false);
 
 const onload = () => {
   console.log("loading====");
-  // setTimeout(() => {
-  //   loading.value = false;
-  // }, 1000);
+  setTimeout(() => {
+    loading.value = false;
+  }, 1000);
   // setTimeout(() => {
   //   error.value = true;
   // }, 1000);
-  setTimeout(() => {
-    finish.value = true;
-  }, 1000);
+  // setTimeout(() => {
+  //   finish.value = true;
+  // }, 1000);
 };
 
 const rowClick = (item: any, index: number) => {
