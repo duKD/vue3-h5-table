@@ -18,6 +18,9 @@
       >
         <h5-table-cell :key="Math.random()" :dataValue="firstColumn.title" />
       </div>
+      <div v-show="moreMark" class="fixed-title-more">
+        <div class="mark"></div>
+      </div>
       <h5-table-header
         ref="tableContainerRef"
         :column="props.column"
@@ -177,6 +180,8 @@ const emits = defineEmits<emitType>();
 
 const disable = computed(() => props.disable);
 
+const moreMark = ref<boolean>(false);
+
 const loading = computed({
   get() {
     return props.loading;
@@ -305,10 +310,23 @@ watchEffect(() => {
   distanTableX.value = cpxtorem(transformX.value);
 });
 
+//判断 左右滚动 是否触底
+watchEffect(() => {
+  if (tableRef.value && transformX.value !== 0) {
+    let temp =
+      tablecontent.value - (tableRef.value.clientWidth - transformX.value);
+
+    if (temp >= 0 && temp < 10) {
+      moreMark.value = false;
+    } else {
+      moreMark.value = true;
+    }
+  }
+});
+
 //计算 表格内容的宽度
 watch(tableContainerRef, () => {
   if (tableContainerRef.value && tableContainerRef.value.titleRef) {
-    console.dir(tableContainerRef.value.titleRef);
     let children: HTMLCollection = tableContainerRef.value.titleRef.children;
     if (children.length > 0) {
       let count = 0;
@@ -316,6 +334,10 @@ watch(tableContainerRef, () => {
         count += val.clientWidth;
       });
       tablecontent.value = count;
+      // 是否显示更多的标识
+      if (tablecontent.value > window.screen.width) {
+        moreMark.value = true;
+      }
     }
   }
 });
@@ -379,5 +401,31 @@ defineExpose({
 }
 .loading {
   text-align: center;
+}
+
+.fixed-title-more {
+  position: fixed;
+  right: 0;
+  width: 60px;
+  height: 60px;
+  z-index: 101;
+  background-color: #fcfcfc;
+
+  .mark {
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    // background-color: transparent; /* 模块背景为透明 */
+
+    border-color: #999;
+
+    border-style: solid;
+
+    border-width: 5px 5px 0 0;
+    top: 30%;
+    left: 30%;
+
+    transform: rotate(45deg); /*箭头方向可以自由切换角度*/
+  }
 }
 </style>
