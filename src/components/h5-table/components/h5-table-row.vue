@@ -22,7 +22,6 @@
 </template>
 <script lang="ts" setup name="H5TableRow">
 import h5TableCell from "./h5-table-cell";
-import { onMounted, computed } from "vue";
 import type { SetupContext } from "vue";
 import type { columnItemType } from "../types";
 import { cellSize } from "../utils";

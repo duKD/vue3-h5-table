@@ -13,6 +13,16 @@
       @load="onload"
       disable
     >
+      <template #titleSlot>
+        <section class="nameAndMarkValueTitle">
+          <div>
+            <span class="name_1"> 班费 </span>/<span class="name_2">
+              总和
+            </span>
+          </div>
+        </section>
+      </template>
+
       <template #title="item">
         <section class="nameAndMarkValue">
           <div class="name">
@@ -78,6 +88,7 @@ const column: Array<columnItemType> = [
     dataIndex: "nameAndMarkValue",
     width: 250,
     slotKey: "title",
+    slotTitleKey: "titleSlot",
     align: "left",
   },
   {
@@ -284,6 +295,10 @@ body {
 <style lang="scss" scoped>
 .position {
   font-size: 24px;
+
+  .nameAndMarkValueTitle {
+    display: flex;
+  }
   .nameAndMarkValue {
     padding: 10px;
     .name {

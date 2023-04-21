@@ -16,7 +16,12 @@
           textAlign: firstColumn.align || 'center',
         }"
       >
-        <h5-table-cell :key="Math.random()" :dataValue="firstColumn.title" />
+        <h5-table-cell
+          :key="Math.random()"
+          :dataValue="firstColumn.title"
+          :slotKey="firstColumn.slotTitleKey"
+          :slots="$slots"
+        />
       </div>
       <div v-show="moreMark" class="fixed-title-more">
         <div class="mark"></div>
@@ -30,6 +35,7 @@
           transition: 'none',
         }"
         @handleHeadSortClick="handleHeadSortClick"
+        :slots="$slots"
       ></h5-table-header>
       <section
         v-if="props.fixedHeader"

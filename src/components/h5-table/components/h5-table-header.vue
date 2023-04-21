@@ -10,7 +10,12 @@
       }"
       @click="changeSortStatus(item)"
     >
-      <h5-table-cell :key="index" :dataValue="item.title" />
+      <h5-table-cell
+        :key="index"
+        :dataValue="item.title"
+        :slotKey="item.slotTitleKey"
+        :slots="props.slots"
+      />
       <span
         v-if="item.sortable && item.dataIndex"
         :class="[
@@ -26,7 +31,7 @@
   </div>
 </template>
 <script lang="ts" setup name="H5TableHeader">
-import { ref, onMounted, reactive } from "vue";
+import { ref, onMounted, reactive, SetupContext } from "vue";
 import type { columnItemType, sortStatusType } from "../types";
 import h5TableCell from "./h5-table-cell";
 import { cellSize } from "../utils";
@@ -34,6 +39,7 @@ import { cellSize } from "../utils";
 type propsType = {
   column: Array<columnItemType>;
   height?: number;
+  slots: SetupContext["slots"];
 };
 
 type emitType = {
