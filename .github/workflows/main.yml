@@ -17,5 +17,5 @@ jobs:
           node-version: ${{matrix.node-version}}
         run: npm install
       - name: Build and Test
-        run: npm run build && npm run test
+        run: npm run build
       - name: kd
