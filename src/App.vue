@@ -73,13 +73,10 @@
   </div>
 </template>
 <script setup lang="ts">
-import { H5Table } from "@/components/h5-table";
-import type {
-  columnItemType,
-  sortStatusType,
-} from "@/components/h5-table/types";
+import { H5Table } from "../lib/h5-table";
+import type { columnItemType, sortStatusType } from "../lib/h5-table/types";
 import { watchEffect, ref, watch } from "vue";
-import { cellSize } from "@/components/h5-table/utils";
+import { cellSize } from "../lib/h5-table/utils";
 
 const column: Array<columnItemType> = [
   {

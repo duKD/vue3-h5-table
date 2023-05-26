@@ -1,13 +1,16 @@
 {
-  "name": "vue3-h5-table-vite",
-  "private": true,
-  "version": "0.0.0",
+  "name": "vue3-h5-table",
+  "private": false,
+  "version": "0.1.1",
   "type": "module",
   "scripts": {
     "dev": "vite --host",
     "build": "vue-tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prepublishOnly": "npm run build"
   },
+  "main": "./dist/h5table.umd.js",
+  "module": "./dist/h5table.es.js",
   "dependencies": {
     "autoprefixer": "^10.4.14",
     "vue": "^3.2.45"
@@ -22,5 +25,6 @@
     "vite": "^4.1.0",
     "vite-plugin-dts": "^2.1.0",
     "vue-tsc": "^1.0.24"
-  }
+  },
+  "types": "./dist/lib/h5-table/index.d.ts"
 }
