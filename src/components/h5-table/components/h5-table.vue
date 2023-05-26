@@ -341,9 +341,7 @@ watch(tableContainerRef, () => {
       });
       tablecontent.value = count;
       // 是否显示更多的标识
-      if (tablecontent.value > window.screen.width) {
-        moreMark.value = true;
-      }
+      moreMark.value = tablecontent.value > window.screen.width;
     }
   }
 });
