@@ -8,6 +8,7 @@
       @row-click="rowClick"
       @handle-head-sort-click="handleHeadSortClick"
       v-model:error="error"
+      :is-click="false"
       v-model:loading="loading"
       :finish="finish"
       @load="onload"

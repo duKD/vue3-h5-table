@@ -140,6 +140,7 @@ type propstype = {
   column: Array<columnItemType>;
   tableDatas: Array<any>;
   fixedHeader?: boolean; // 是否固定表头
+  isClick?: boolean; // 是否需要触发行点击事件
   disable?: boolean; // 是否启用下拉加载
   error?: boolean; // 数据加载失败
   loading?: boolean; // 数据处于加载状态
@@ -172,6 +173,7 @@ const props = withDefaults(defineProps<propstype>(), {
   rowHeight: 100,
   tableDatas: () => [],
   fixedHeader: true,
+  isClick: true,
   disable: false, // 是否启用下拉加载
   error: false, // 数据加载失败
   loading: false, // 数据处于加载状态
@@ -236,6 +238,7 @@ const tryAgain = () => {
 };
 
 const handleClick = (item: any, index: number) => {
+  if (!props.isClick) return;
   //只有 左右 上下 移动 都在 20像素之内 才判定 用户点击
   if (Math.abs(distanX.value) < 20 && Math.abs(distanY.value) < 20) {
     emits("rowClick", item, index);

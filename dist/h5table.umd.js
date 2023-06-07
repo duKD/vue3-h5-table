@@ -269,7 +269,7 @@
     });
     return [transformX, distanX, distanY];
   }
-  const _withScopeId = (n) => (vue.pushScopeId("data-v-d644f7fc"), n = n(), vue.popScopeId(), n);
+  const _withScopeId = (n) => (vue.pushScopeId("data-v-842bb3ea"), n = n(), vue.popScopeId(), n);
   const _hoisted_1 = { class: "table-header" };
   const _hoisted_2 = { class: "fixed-title-more" };
   const _hoisted_3 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ vue.createElementVNode("div", { class: "mark" }, null, -1));
@@ -286,6 +286,7 @@
       column: null,
       tableDatas: { default: () => [] },
       fixedHeader: { type: Boolean, default: true },
+      isClick: { type: Boolean, default: true },
       disable: { type: Boolean, default: false },
       error: { type: Boolean, default: false },
       loading: { type: Boolean, default: false },
@@ -350,6 +351,8 @@
         }
       };
       const handleClick = (item, index) => {
+        if (!props.isClick)
+          return;
         if (Math.abs(distanX.value) < 20 && Math.abs(distanY.value) < 20) {
           emits("rowClick", item, index);
         }
@@ -559,8 +562,8 @@
       };
     }
   });
-  const h5Table_vue_vue_type_style_index_0_scoped_d644f7fc_lang = "";
-  const h5Table = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-d644f7fc"]]);
+  const h5Table_vue_vue_type_style_index_0_scoped_842bb3ea_lang = "";
+  const h5Table = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-842bb3ea"]]);
   exports2.H5Table = h5Table;
   Object.defineProperty(exports2, Symbol.toStringTag, { value: "Module" });
 });

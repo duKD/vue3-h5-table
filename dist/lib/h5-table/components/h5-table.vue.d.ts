@@ -35,6 +35,11 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: false;
         default: boolean;
     };
+    isClick: {
+        type: __PropType<boolean | undefined>;
+        required: false;
+        default: boolean;
+    };
     disable: {
         type: __PropType<boolean | undefined>;
         required: false;
@@ -113,6 +118,11 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: false;
         default: boolean;
     };
+    isClick: {
+        type: __PropType<boolean | undefined>;
+        required: false;
+        default: boolean;
+    };
     disable: {
         type: __PropType<boolean | undefined>;
         required: false;
@@ -166,6 +176,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
     rowHeight: number | undefined;
     tableDatas: any[];
     fixedHeader: boolean | undefined;
+    isClick: boolean | undefined;
     disable: boolean | undefined;
     error: boolean | undefined;
     loading: boolean | undefined;
