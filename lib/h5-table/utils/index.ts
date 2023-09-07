@@ -1,16 +1,17 @@
-export const pxtorem = (x:number)=>{
-    const rmSize = Number(document.documentElement.style.fontSize.replace('px',''))
-    return x/rmSize/2 +'rem'
-}
+let rmSize: number | undefined = undefined;
 
-export const cpxtorem = (x:number)=>{
-    const rmSize = Number(document.documentElement.style.fontSize.replace('px',''))
-    return x/rmSize +'rem'
-}
+export const pxtorem = (x: number, multiplex: number) => {
+  if (!rmSize) {
+    rmSize = Number(document.documentElement.style.fontSize.replace("px", ""));
+  }
 
-export const cellSize = (size: number | undefined) => {
-    if (!size) {
-      return pxtorem(60);
-    }
-    return pxtorem(size);
-  };
+  return x / rmSize / multiplex + "rem";
+};
+
+export const cellSize = (size: number | undefined, multiplex: number) => {
+  if (!size) {
+    return pxtorem(60, multiplex);
+  }
+
+  return pxtorem(size, multiplex);
+};

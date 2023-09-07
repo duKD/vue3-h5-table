@@ -12,7 +12,7 @@
       v-model:loading="loading"
       :finish="finish"
       @load="onload"
-      disable
+      optimized
     >
       <template #titleSlot>
         <section class="nameAndMarkValueTitle">
@@ -30,7 +30,7 @@
             {{ item.select }}
             <span class="type">{{ item.type === 1 ? "深" : "沪" }}</span>
           </div>
-          <div class="markValue">{{ item.markValue }}</div>
+          <div class="markValue">{{ item.markValue }}=={{ item.id }}</div>
         </section>
       </template>
       <template #positionAndUse="item">
@@ -61,7 +61,7 @@
         <section
           class="rowDownMark"
           :style="{
-            top: cellSize(rowDownMarkTop),
+            top: cellSize(rowDownMarkTop, 2),
           }"
           v-show="rowDownMarkTop > 0"
         >
@@ -227,7 +227,24 @@ const datas = [
   },
 ];
 
-const tableDatas = ref<Array<any>>(JSON.parse(JSON.stringify(datas)));
+const temp = Array.from({ length: 2000 }).map((item, index) => {
+  return {
+    id: index,
+    select: "三年二班",
+    type: 1,
+    position: "27000",
+    use: "5,000",
+    markValue: "500,033.341",
+    cur: "30.004",
+    cost: "32.453",
+    newPrice: 20,
+    float: "+18,879.09",
+    profit: "-5.45%",
+    count: "120,121",
+  };
+});
+
+const tableDatas = ref<Array<any>>(JSON.parse(JSON.stringify(temp)));
 
 const rowDownMarkTop = ref<number>(0);
 
@@ -240,6 +257,24 @@ const finish = ref<boolean>(false);
 const onload = () => {
   console.log("loading====");
   setTimeout(() => {
+    tableDatas.value = tableDatas.value.concat(
+      Array.from({ length: 100 }).map((item, index) => {
+        return {
+          id: new Date().getTime() + index,
+          select: "三年二班",
+          type: 1,
+          position: "27000",
+          use: "5,000",
+          markValue: "500,033.341",
+          cur: "30.004",
+          cost: "32.453",
+          newPrice: 20,
+          float: "+18,879.09",
+          profit: "-5.45%",
+          count: "120,121",
+        };
+      })
+    );
     loading.value = false;
   }, 1000);
   // setTimeout(() => {

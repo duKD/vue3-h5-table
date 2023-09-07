@@ -4,8 +4,8 @@
       v-for="(item, index) in props.column"
       :class="['table-row-column', index === 0 ? 'first-table-row-column' : '']"
       :style="{
-        width: cellSize(item.width),
-        height: cellSize(props.height),
+        width: cellSize(item.width, props.multiple),
+        height: cellSize(props.height, props.multiple),
         textAlign: item.align || 'center',
       }"
       @click="changeSortStatus(item)"
@@ -40,6 +40,7 @@ type propsType = {
   column: Array<columnItemType>;
   height?: number;
   slots: SetupContext["slots"];
+  multiple: number;
 };
 
 type emitType = {

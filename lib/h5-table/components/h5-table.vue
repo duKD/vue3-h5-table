@@ -3,7 +3,7 @@
     ref="tableRef"
     class="table"
     :style="{
-      height: cellSize(tableHeight),
+      height: handleCellSize(tableHeight),
     }"
   >
     <section class="table-header">
@@ -11,8 +11,8 @@
         class="fixed-title-mark"
         v-if="props.fixedHeader"
         :style="{
-          width: cellSize(firstColumn.width),
-          height: cellSize(props.headerHeight),
+          width: handleCellSize(firstColumn.width),
+          height: handleCellSize(props.headerHeight),
           textAlign: firstColumn.align || 'center',
         }"
       >
@@ -36,24 +36,25 @@
         }"
         @handleHeadSortClick="handleHeadSortClick"
         :slots="$slots"
+        :multiple="props.multiple"
       ></h5-table-header>
       <section
         v-if="props.fixedHeader"
         :style="{
-          height: cellSize(props.headerHeight),
+          height: handleCellSize(props.headerHeight),
         }"
       ></section>
       <section
         class="first-column"
         :style="{
-          width: cellSize(firstColumn.width),
+          width: handleCellSize(firstColumn.width),
         }"
       >
         <div
           :class="['table-row-column', 'first-table-row-column']"
           :style="{
-            width: cellSize(firstColumn.width),
-            height: cellSize(props.headerHeight),
+            width: handleCellSize(firstColumn.width),
+            height: handleCellSize(props.headerHeight),
             borderBottom: 'none',
             textAlign: firstColumn.align || 'center',
           }"
@@ -68,26 +69,28 @@
             }"
           />
         </div>
-        <div
-          v-for="(item, index) in props.tableDatas"
-          :class="['table-row-column', 'first-table-row-column']"
-          :style="{
-            width: cellSize(firstColumn.width),
-            height: cellSize(props.rowHeight),
-            textAlign: firstColumn.align || 'center',
-          }"
-        >
-          <h5-table-cell
-            :key="index"
-            :dataValue="
-              firstColumn.dataIndex ? item[firstColumn.dataIndex] : ''
-            "
-            :dataItem="item"
-            :render="firstColumn.render"
-            :slotKey="firstColumn.slotKey"
-            :slots="$slots"
-          />
-        </div>
+        <template v-for="(item, index) in props.tableDatas">
+          <div
+            :class="['table-row-column', 'first-table-row-column']"
+            :style="{
+              width: handleCellSize(firstColumn.width),
+              height: handleCellSize(props.rowHeight),
+              textAlign: firstColumn.align || 'center',
+            }"
+            v-if="isShowRow(index)"
+          >
+            <h5-table-cell
+              :key="index"
+              :dataValue="
+                firstColumn.dataIndex ? item[firstColumn.dataIndex] : ''
+              "
+              :dataItem="item"
+              :render="firstColumn.render"
+              :slotKey="firstColumn.slotKey"
+              :slots="$slots"
+            />
+          </div>
+        </template>
       </section>
     </section>
 
@@ -95,16 +98,19 @@
       class="table-content"
       :style="`transform: translateX(${distanTableX});transition:none`"
     >
-      <h5-table-row
-        v-for="(item, index) in props.tableDatas"
-        :key="index"
-        :data-item="item"
-        :column="props.column"
-        :height="props.rowHeight"
-        :slots="$slots"
-        @touchend.native="handleClick(item, index)"
-      >
-      </h5-table-row>
+      <template v-for="(item, index) in props.tableDatas">
+        <h5-table-row
+          v-if="isShowRow(index)"
+          :key="index"
+          :data-item="item"
+          :column="props.column"
+          :height="props.rowHeight"
+          :slots="$slots"
+          :multiple="props.multiple"
+          @touchend.native="handleClick(item, index)"
+        >
+        </h5-table-row>
+      </template>
     </section>
     <section
       class="loading"
@@ -121,6 +127,7 @@ import h5TableCell from "./h5-table-cell";
 import H5TableRow from "./h5-table-row.vue";
 import H5TableHeader from "./h5-table-header.vue";
 import useGetTransformX from "../hooks/useGetTransformX";
+import useHandleScroll from "../hooks/useHandleScroll";
 import {
   onMounted,
   computed,
@@ -130,7 +137,7 @@ import {
   onBeforeUpdate,
 } from "vue";
 import type { columnItemType, sortStatusType } from "../types";
-import { cellSize, cpxtorem, pxtorem } from "../utils";
+import { cellSize, pxtorem } from "../utils";
 
 type propstype = {
   minTableHeight?: number; //表格最小高度
@@ -149,6 +156,8 @@ type propstype = {
   errorText?: string; // 失败文案
   finishedText?: string; // 完成文案
   offset?: number; //触发加载的底部距离
+  multiple?: number; // 设计稿几倍图
+  optimized?: boolean; // 是否开启优化
 };
 
 type emitType = {
@@ -182,6 +191,8 @@ const props = withDefaults(defineProps<propstype>(), {
   errorText: "出错了", // 失败文案
   finishedText: "到底了", // 完成文案
   offset: 10,
+  multiple: 2,
+  optimized: false,
 });
 
 const emits = defineEmits<emitType>();
@@ -189,6 +200,10 @@ const emits = defineEmits<emitType>();
 const disable = computed(() => props.disable);
 
 const moreMark = ref<boolean>(false);
+
+const handleCellSize = (num: number | undefined) => {
+  return cellSize(num, props.multiple);
+};
 
 const loading = computed({
   get() {
@@ -249,13 +264,13 @@ const handleHeadSortClick = (propKey: string, type: sortStatusType) => {
   emits("handleHeadSortClick", propKey, type);
 };
 
-const getKey = (item: any, index: number) => {
-  const temp = props.column.find((obj) => obj.key);
-  if (temp) {
-    return item[temp.key as any];
-  }
-  return index;
-};
+// const getKey = (item: any, index: number) => {
+//   const temp = props.column.find((obj) => obj.key);
+//   if (temp) {
+//     return item[temp.key as any];
+//   }
+//   return index;
+// };
 
 // 根据 指定下标 下 移动元素
 const handleDom = () => {
@@ -280,7 +295,7 @@ const handleDom = () => {
 
     const targetDom = firstColumn?.children[index + 1] || null;
     if (targetDom) {
-      (targetDom as any).style.marginBottom = pxtorem(height);
+      (targetDom as any).style.marginBottom = pxtorem(height, props.multiple);
       pre_doms.push(targetDom);
     }
 
@@ -289,7 +304,7 @@ const handleDom = () => {
     const rowTarget: HTMLCollection | undefined = rowDom?.children;
     if (rowTarget) {
       Array.from(rowTarget).forEach((item) => {
-        (item as any).style.marginBottom = pxtorem(height);
+        (item as any).style.marginBottom = pxtorem(height, props.multiple);
         pre_doms.push(item);
       });
     }
@@ -309,6 +324,18 @@ const [transformX, distanX, distanY] = useGetTransformX(
   props.offset
 );
 
+const count = computed(() => props.tableDatas.length);
+
+const { isShowRow } = useHandleScroll(
+  40,
+  count,
+  props.rowHeight,
+  props.multiple,
+  tableRef,
+  disable,
+  props.optimized
+);
+
 watchEffect(() => {
   if (tableRef.value) {
     tablewidth.value = tableRef.value.clientWidth;
@@ -316,7 +343,7 @@ watchEffect(() => {
 });
 
 watchEffect(() => {
-  distanTableX.value = cpxtorem(transformX.value);
+  distanTableX.value = transformX.value + "px";
 });
 
 //判断 左右滚动 是否触底
@@ -339,10 +366,11 @@ watch(tableContainerRef, () => {
     let children: HTMLCollection = tableContainerRef.value.titleRef.children;
     if (children.length > 0) {
       let count = 0;
-      Array.from(children).forEach((val) => {
+      Array.from(children).forEach((val, index) => {
         count += val.clientWidth;
       });
       tablecontent.value = count;
+
       // 是否显示更多的标识
       moreMark.value = tablecontent.value > window.screen.width;
     }
