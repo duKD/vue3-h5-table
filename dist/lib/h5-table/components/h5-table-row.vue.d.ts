@@ -20,6 +20,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
         }>>;
         required: true;
     };
+    multiple: {
+        type: __PropType<number>;
+        required: true;
+    };
 }, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     column: {
         type: __PropType<columnItemType[]>;
@@ -38,6 +42,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
         type: __PropType<Readonly<{
             [name: string]: import("vue").Slot | undefined;
         }>>;
+        required: true;
+    };
+    multiple: {
+        type: __PropType<number>;
         required: true;
     };
 }>>, {

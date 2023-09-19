@@ -17,6 +17,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
         }>>;
         required: true;
     };
+    multiple: {
+        type: __PropType<number>;
+        required: true;
+    };
 }, {
     titleRef: import("vue").Ref<HTMLElement | null>;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "handleHeadSortClick"[], "handleHeadSortClick", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
@@ -34,6 +38,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
         type: __PropType<Readonly<{
             [name: string]: import("vue").Slot | undefined;
         }>>;
+        required: true;
+    };
+    multiple: {
+        type: __PropType<number>;
         required: true;
     };
 }>> & {

@@ -80,6 +80,16 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: false;
         default: number;
     };
+    multiple: {
+        type: __PropType<number | undefined>;
+        required: false;
+        default: number;
+    };
+    optimized: {
+        type: __PropType<boolean | undefined>;
+        required: false;
+        default: boolean;
+    };
 }, {
     handleDom: (height: number, index: number) => void;
     tableRef: import("vue").Ref<HTMLElement | null>;
@@ -163,6 +173,16 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: false;
         default: number;
     };
+    multiple: {
+        type: __PropType<number | undefined>;
+        required: false;
+        default: number;
+    };
+    optimized: {
+        type: __PropType<boolean | undefined>;
+        required: false;
+        default: boolean;
+    };
 }>> & {
     onHandleHeadSortClick?: ((...args: any[]) => any) | undefined;
     onRowClick?: ((...args: any[]) => any) | undefined;
@@ -170,6 +190,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
     "onUpdate:error"?: ((...args: any[]) => any) | undefined;
     onLoad?: ((...args: any[]) => any) | undefined;
 }, {
+    multiple: number | undefined;
     minTableHeight: number | undefined;
     rowNum: number | undefined;
     headerHeight: number | undefined;
@@ -185,5 +206,6 @@ declare const _sfc_main: import("vue").DefineComponent<{
     errorText: string | undefined;
     finishedText: string | undefined;
     offset: number | undefined;
+    optimized: boolean | undefined;
 }>;
 export default _sfc_main;
