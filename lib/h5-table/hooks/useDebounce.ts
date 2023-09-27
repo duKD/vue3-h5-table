@@ -6,6 +6,7 @@ export default function useDebounce(fn: Function, delay: number) {
   const debounce = (...args: any[]) => {
     if (timer.value) {
       clearTimeout(timer.value);
+      timer.value = null;
     }
 
     timer.value = setTimeout(() => {

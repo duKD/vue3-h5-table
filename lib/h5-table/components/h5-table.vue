@@ -319,9 +319,9 @@ const firstColumn = computed(() => {
 
 //判断 左右滚动 是否触底 显示隐藏 更多的标志 防抖
 const handleTouchBottom = useDebounce((distanceX: number) => {
-  if (tableRef.value && distanceX !== 0) {
+  if (tableRef.value) {
     let temp = tableContent.value - (tableRef.value!.clientWidth - distanceX);
-    if (temp < 10) {
+    if (temp >= 0 && temp < 10) {
       moreMark.value = false;
     } else {
       moreMark.value = true;
@@ -345,6 +345,7 @@ const [distanX, distanY] = useGetTransformX(
       let dom = tableContentEL.value;
       dom.style.transform = `translateX(${val}px)`;
     }
+
     handleTouchBottom(val);
   }
 );
