@@ -1,18 +1,18 @@
 <template>
   <div class="position">
+    <section style="height: 200px"></section>
     <h5-table
       ref="h5TableRef"
       :fixed-header="true"
       :column="column"
-      :table-datas="tableDatas"
+      :table-dates="tableDates"
       @row-click="rowClick"
       @handle-head-sort-click="handleHeadSortClick"
       v-model:error="error"
-      :is-click="false"
+      :is-click="true"
       v-model:loading="loading"
       :finish="finish"
       @load="onload"
-      optimized
     >
       <template #titleSlot>
         <section class="nameAndMarkValueTitle">
@@ -58,13 +58,7 @@
       </template>
 
       <template #rowDownMark>
-        <section
-          class="rowDownMark"
-          :style="{
-            top: cellSize(rowDownMarkTop, 2),
-          }"
-          v-show="rowDownMarkTop > 0"
-        >
+        <section class="rowDownMark">
           <div class="rowDownMark-item" @click="handelSell">买入</div>
           <div class="rowDownMark-item">卖出</div>
           <div class="rowDownMark-item">行情</div>
@@ -76,8 +70,7 @@
 <script setup lang="ts">
 import { H5Table } from "../lib/h5-table";
 import type { columnItemType, sortStatusType } from "../lib/h5-table/types";
-import { watchEffect, ref, watch } from "vue";
-import { cellSize } from "../lib/h5-table/utils";
+import { ref, watch } from "vue";
 
 const column: Array<columnItemType> = [
   {
@@ -227,7 +220,7 @@ const datas = [
   },
 ];
 
-const temp = Array.from({ length: 2000 }).map((item, index) => {
+const temp = Array.from({ length: 300 }).map((item, index) => {
   return {
     id: index,
     select: "三年二班",
@@ -244,9 +237,7 @@ const temp = Array.from({ length: 2000 }).map((item, index) => {
   };
 });
 
-const tableDatas = ref<Array<any>>(JSON.parse(JSON.stringify(temp)));
-
-const rowDownMarkTop = ref<number>(0);
+const tableDates = ref<Array<any>>(JSON.parse(JSON.stringify(temp)));
 
 const h5TableRef = ref<typeof H5Table | null>(null);
 
@@ -257,7 +248,7 @@ const finish = ref<boolean>(false);
 const onload = () => {
   console.log("loading====");
   setTimeout(() => {
-    tableDatas.value = tableDatas.value.concat(
+    tableDates.value = tableDates.value.concat(
       Array.from({ length: 100 }).map((item, index) => {
         return {
           id: new Date().getTime() + index,
@@ -286,33 +277,32 @@ const onload = () => {
 };
 
 const rowClick = (item: any, index: number) => {
-  rowDownMarkTop.value = (index + 1) * 100 + 60;
   if (h5TableRef.value) {
+    //第一个参数 即是 设计稿 插槽的高度
     h5TableRef.value.handleDom(60, index);
   }
 };
 
 //处理排序
 const handleHeadSortClick = (propsKey: string, type: sortStatusType) => {
-  rowDownMarkTop.value = 0;
   if (h5TableRef.value) {
     h5TableRef.value.handleDom(60, -1);
   }
   if (type === 0) {
-    tableDatas.value.splice(0, tableDatas.value.length, ...datas);
+    tableDates.value.splice(0, tableDates.value.length, ...datas);
     return;
   }
   if (propsKey === "positionAndUse") {
     if (type === 1) {
-      tableDatas.value.sort((a, b) => Number(b.position) - Number(a.position));
+      tableDates.value.sort((a, b) => Number(b.position) - Number(a.position));
     } else {
-      tableDatas.value.sort((a, b) => Number(a.position) - Number(b.position));
+      tableDates.value.sort((a, b) => Number(a.position) - Number(b.position));
     }
   }
 };
 
-watch(tableDatas.value, () => {
-  console.log("watch====", tableDatas);
+watch(tableDates.value, () => {
+  console.log("watch====", tableDates);
 });
 
 const handelSell = () => {
@@ -382,10 +372,8 @@ body {
   }
 
   .rowDownMark {
-    position: absolute;
     width: 100%;
     display: flex;
-    z-index: 99;
     height: 60px;
     background-color: #fcfcfc;
     align-items: center;

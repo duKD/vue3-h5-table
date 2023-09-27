@@ -3,7 +3,7 @@ export type renderType = typeof h;
 export type columnItemType = {
     title: string;
     dataIndex?: string;
-    width?: number;
+    width: number;
     slotKey?: string;
     slotTitleKey?: string;
     sortable?: boolean;

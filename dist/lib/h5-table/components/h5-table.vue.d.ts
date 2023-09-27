@@ -25,7 +25,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         type: __PropType<columnItemType[]>;
         required: true;
     };
-    tableDatas: {
+    tableDates: {
         type: __PropType<any[]>;
         required: true;
         default: () => never[];
@@ -80,7 +80,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: false;
         default: number;
     };
-    multiple: {
+    rootValue: {
         type: __PropType<number | undefined>;
         required: false;
         default: number;
@@ -118,7 +118,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         type: __PropType<columnItemType[]>;
         required: true;
     };
-    tableDatas: {
+    tableDates: {
         type: __PropType<any[]>;
         required: true;
         default: () => never[];
@@ -173,7 +173,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: false;
         default: number;
     };
-    multiple: {
+    rootValue: {
         type: __PropType<number | undefined>;
         required: false;
         default: number;
@@ -190,12 +190,12 @@ declare const _sfc_main: import("vue").DefineComponent<{
     "onUpdate:error"?: ((...args: any[]) => any) | undefined;
     onLoad?: ((...args: any[]) => any) | undefined;
 }, {
-    multiple: number | undefined;
+    rootValue: number | undefined;
     minTableHeight: number | undefined;
     rowNum: number | undefined;
     headerHeight: number | undefined;
     rowHeight: number | undefined;
-    tableDatas: any[];
+    tableDates: any[];
     fixedHeader: boolean | undefined;
     isClick: boolean | undefined;
     disable: boolean | undefined;

@@ -17,7 +17,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         }>>;
         required: true;
     };
-    multiple: {
+    rootValue: {
         type: __PropType<number>;
         required: true;
     };
@@ -40,7 +40,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         }>>;
         required: true;
     };
-    multiple: {
+    rootValue: {
         type: __PropType<number>;
         required: true;
     };

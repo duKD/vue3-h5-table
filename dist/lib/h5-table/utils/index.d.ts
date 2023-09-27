@@ -1,2 +1,2 @@
-export declare const pxtorem: (x: number, multiplex: number) => string;
-export declare const cellSize: (size: number | undefined, multiplex: number) => string;
+export declare const pxtorem: (x: number, rootValue: number) => string;
+export declare const cellSize: (size: number | undefined, rootValue: number) => string;

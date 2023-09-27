@@ -1,4 +1,4 @@
-@charset "UTF-8";.table-row[data-v-536e46da] {
+@charset "UTF-8";.table-row[data-v-2d7b65cf] {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -7,7 +7,7 @@
       -ms-flex-wrap: nowrap;
           flex-wrap: nowrap;
 }
-.table-row-column[data-v-536e46da] {
+.table-row-column[data-v-2d7b65cf] {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
       -ms-flex-positive: 1;
@@ -29,34 +29,34 @@
           align-items: center;
   border-bottom: 0.01333rem solid #f4f4f4;
 }
-.first-table-row-column[data-v-536e46da] {
+.first-table-row-column[data-v-2d7b65cf] {
   -webkit-box-flex: 0;
   -webkit-flex-grow: 0;
       -ms-flex-positive: 0;
           flex-grow: 0;
 }
-.cell[data-v-536e46da] {
+.cell[data-v-2d7b65cf] {
   width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.left[data-v-536e46da] {
+.left[data-v-2d7b65cf] {
   text-align: left;
 }
-.right[data-v-536e46da] {
+.right[data-v-2d7b65cf] {
   text-align: right;
 }
-.center[data-v-536e46da] {
+.center[data-v-2d7b65cf] {
   text-align: center;
-}.title[data-v-08afd31e] {
+}.title[data-v-e3bb5d1c] {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   font-size: 0.32rem;
 }
-.title .table-row-column[data-v-08afd31e] {
+.title .table-row-column[data-v-e3bb5d1c] {
   position: relative;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -79,53 +79,53 @@
           align-items: center;
   background-color: #fcfcfc;
 }
-.title .table-row-column .table-caret-wrapper[data-v-08afd31e] {
+.title .table-row-column .table-caret-wrapper[data-v-e3bb5d1c] {
   position: absolute;
   right: 0;
   width: 0.4rem;
   height: 0.56rem;
 }
-.title .table-row-column .sort-caret[data-v-08afd31e] {
+.title .table-row-column .sort-caret[data-v-e3bb5d1c] {
   border: 0.13333rem solid transparent;
   width: 0;
   height: 0;
   left: 0;
   position: absolute;
 }
-.title .table-row-column .ascending[data-v-08afd31e] {
+.title .table-row-column .ascending[data-v-e3bb5d1c] {
   border-bottom-color: #c0c4cc;
   top: 0;
 }
-.title .table-row-column .descending[data-v-08afd31e] {
+.title .table-row-column .descending[data-v-e3bb5d1c] {
   border-top-color: #c0c4cc;
   bottom: 0;
 }
-.title .table-row-column .is-ascending .ascending[data-v-08afd31e] {
+.title .table-row-column .is-ascending .ascending[data-v-e3bb5d1c] {
   border-bottom-color: #309fea;
 }
-.title .table-row-column .is-descending .descending[data-v-08afd31e] {
+.title .table-row-column .is-descending .descending[data-v-e3bb5d1c] {
   border-top-color: #309fea;
 }
-.title .first-table-row-column[data-v-08afd31e] {
+.title .first-table-row-column[data-v-e3bb5d1c] {
   -webkit-box-flex: 0;
   -webkit-flex-grow: 0;
       -ms-flex-positive: 0;
           flex-grow: 0;
 }
-.table[data-v-8c951104] {
+.table[data-v-b55f195a] {
   position: relative;
   overflow-x: hidden;
   overflow-y: auto;
 }
-.fixedHeader[data-v-8c951104] {
+.fixedHeader[data-v-b55f195a] {
   position: fixed;
   z-index: 100;
   min-width: 100%;
 }
-.table-header[data-v-8c951104] {
+.table-header[data-v-b55f195a] {
   position: relative;
 }
-.fixed-title-mark[data-v-8c951104] {
+.fixed-title-mark[data-v-b55f195a] {
   position: fixed;
   display: -webkit-box;
   display: -webkit-flex;
@@ -142,13 +142,13 @@
   z-index: 101;
   background-color: #fcfcfc;
 }
-.first-column[data-v-8c951104] {
+.first-column[data-v-b55f195a] {
   position: absolute;
   top: 0;
   z-index: 9;
   background-color: #fff;
 }
-.first-column .table-row-column[data-v-8c951104] {
+.first-column .table-row-column[data-v-b55f195a] {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
       -ms-flex-positive: 1;
@@ -170,15 +170,20 @@
           align-items: center;
   border-bottom: 0.01333rem solid #f4f4f4;
 }
-.first-column .cell[data-v-8c951104] {
+.first-column .cell[data-v-b55f195a] {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.loading[data-v-8c951104] {
+.loading[data-v-b55f195a] {
   text-align: center;
 }
-.fixed-title-more[data-v-8c951104] {
+.rowMarkContainer[data-v-b55f195a] {
+  width: 100%;
+  position: absolute;
+  z-index: 9;
+}
+.fixed-title-more[data-v-b55f195a] {
   position: fixed;
   right: 0;
   width: 0.8rem;
@@ -186,7 +191,7 @@
   z-index: 101;
   background-color: #fcfcfc;
 }
-.fixed-title-more .mark[data-v-8c951104] {
+.fixed-title-more .mark[data-v-b55f195a] {
   position: absolute;
   height: 0.26667rem;
   width: 0.26667rem;

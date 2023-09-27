@@ -14,18 +14,14 @@ const h5TableCell = defineComponent({
     };
   }
 });
-let rmSize = void 0;
-const pxtorem = (x, multiplex) => {
-  if (!rmSize) {
-    rmSize = Number(document.documentElement.style.fontSize.replace("px", ""));
-  }
-  return x / rmSize / multiplex + "rem";
+const pxtorem = (x, rootValue) => {
+  return x / rootValue + "rem";
 };
-const cellSize = (size, multiplex) => {
+const cellSize = (size, rootValue) => {
   if (!size) {
-    return pxtorem(60, multiplex);
+    return pxtorem(60, rootValue);
   }
-  return pxtorem(size, multiplex);
+  return pxtorem(size, rootValue);
 };
 const _hoisted_1$2 = { class: "table-row" };
 const _sfc_main$2 = /* @__PURE__ */ defineComponent({
@@ -35,7 +31,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
     dataItem: null,
     height: null,
     slots: null,
-    multiple: null
+    rootValue: null
   },
   setup(__props) {
     const props = __props;
@@ -45,8 +41,8 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
           return openBlock(), createElementBlock("div", {
             class: normalizeClass(["table-row-column", index === 0 ? "first-table-row-column" : ""]),
             style: normalizeStyle({
-              width: unref(cellSize)(item.width, props.multiple),
-              height: unref(cellSize)(props.height, props.multiple),
+              width: unref(cellSize)(item.width, props.rootValue),
+              height: unref(cellSize)(props.height, props.rootValue),
               textAlign: item.align || "center"
             })
           }, [
@@ -64,7 +60,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const h5TableRow_vue_vue_type_style_index_0_scoped_536e46da_lang = "";
+const h5TableRow_vue_vue_type_style_index_0_scoped_2d7b65cf_lang = "";
 const _export_sfc = (sfc, props) => {
   const target = sfc.__vccOpts || sfc;
   for (const [key, val] of props) {
@@ -72,8 +68,8 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const H5TableRow = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-536e46da"]]);
-const _withScopeId$1 = (n) => (pushScopeId("data-v-08afd31e"), n = n(), popScopeId(), n);
+const H5TableRow = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-2d7b65cf"]]);
+const _withScopeId$1 = (n) => (pushScopeId("data-v-e3bb5d1c"), n = n(), popScopeId(), n);
 const _hoisted_1$1 = ["onClick"];
 const _hoisted_2$1 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createElementVNode("i", { class: "sort-caret ascending" }, null, -1));
 const _hoisted_3$1 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createElementVNode("i", { class: "sort-caret descending" }, null, -1));
@@ -87,7 +83,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     column: { default: () => [] },
     height: { default: 60 },
     slots: null,
-    multiple: null
+    rootValue: null
   },
   emits: ["handleHeadSortClick"],
   setup(__props, { expose, emit: emits }) {
@@ -122,8 +118,8 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
           return openBlock(), createElementBlock("div", {
             class: normalizeClass(["table-row-column", index === 0 ? "first-table-row-column" : ""]),
             style: normalizeStyle({
-              width: unref(cellSize)(item.width, props.multiple),
-              height: unref(cellSize)(props.height, props.multiple),
+              width: unref(cellSize)(item.width, props.rootValue),
+              height: unref(cellSize)(props.height, props.rootValue),
               textAlign: item.align || "center"
             }),
             onClick: ($event) => changeSortStatus(item)
@@ -148,8 +144,8 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const h5TableHeader_vue_vue_type_style_index_0_scoped_08afd31e_lang = "";
-const H5TableHeader = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-08afd31e"]]);
+const h5TableHeader_vue_vue_type_style_index_0_scoped_e3bb5d1c_lang = "";
+const H5TableHeader = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-e3bb5d1c"]]);
 const getAngle = (x, y) => {
   return Math.atan2(y, x) * 180 / Math.PI;
 };
@@ -223,7 +219,7 @@ function useTouchMoveLeftAndRight(target, options) {
   });
   return [distanX, distanY];
 }
-function useGetTransformX(target, tablewidth, tableContent, disable, bottomLoadEvent, offset, stopPropagation = true) {
+function useGetTransformX(target, tablewidth, tableContent, disable, bottomLoadEvent, offset, handleTransform, stopPropagation = true) {
   const previousX = ref(0);
   const transformX = ref(0);
   const handleBottom = () => {
@@ -247,6 +243,7 @@ function useGetTransformX(target, tablewidth, tableContent, disable, bottomLoadE
         const temp = Math.min(previousX.value + distanX.value, 0);
         const res = Math.max(-max, temp);
         transformX.value = res;
+        handleTransform(transformX.value);
       }
     }
     if (stopPropagation) {
@@ -265,12 +262,13 @@ function useGetTransformX(target, tablewidth, tableContent, disable, bottomLoadE
     touchmove,
     touchend
   });
-  return [transformX, distanX, distanY];
+  return [distanX, distanY];
 }
-function useHandleScroll(max, count, rowHeight, multiplex, tableRef, disable, optimized) {
+function useHandleScroll(max, count, rowHeight, rootValue, tableRef, disable, optimized) {
   const changeNum = 30;
   const showRange = ref([0, max + changeNum * 2]);
-  const realRowHeight = rowHeight / multiplex;
+  const rem = Number(document.documentElement.style.fontSize.replace("px", ""));
+  const realRowHeight = rowHeight / rootValue * rem;
   const scrollStart = ref(0);
   const scrollEnd = ref(0);
   const hasDistance = ref(0);
@@ -332,13 +330,34 @@ function useHandleScroll(max, count, rowHeight, multiplex, tableRef, disable, op
   });
   return { isShowRow };
 }
-const _withScopeId = (n) => (pushScopeId("data-v-8c951104"), n = n(), popScopeId(), n);
+function useDebounce(fn, delay) {
+  const timer = ref(null);
+  const debounce = (...args) => {
+    if (timer.value) {
+      clearTimeout(timer.value);
+    }
+    timer.value = setTimeout(() => {
+      fn(...args);
+    }, delay);
+  };
+  onUnmounted(() => {
+    if (timer.value) {
+      clearTimeout(timer.value);
+    }
+  });
+  return debounce;
+}
+const _withScopeId = (n) => (pushScopeId("data-v-b55f195a"), n = n(), popScopeId(), n);
 const _hoisted_1 = { class: "table-header" };
 const _hoisted_2 = { class: "fixed-title-more" };
 const _hoisted_3 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createElementVNode("div", { class: "mark" }, null, -1));
 const _hoisted_4 = [
   _hoisted_3
 ];
+const _hoisted_5 = {
+  id: "table-content",
+  class: "table-content"
+};
 const _sfc_main = /* @__PURE__ */ defineComponent({
   __name: "h5-table",
   props: {
@@ -347,7 +366,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     headerHeight: { default: 60 },
     rowHeight: { default: 100 },
     column: null,
-    tableDatas: { default: () => [] },
+    tableDates: { default: () => [] },
     fixedHeader: { type: Boolean, default: true },
     isClick: { type: Boolean, default: true },
     disable: { type: Boolean, default: false },
@@ -358,22 +377,27 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     errorText: { default: "出错了" },
     finishedText: { default: "到底了" },
     offset: { default: 10 },
-    multiple: { default: 2 },
+    rootValue: { default: 75 },
     optimized: { type: Boolean, default: false }
   },
   emits: ["rowClick", "handleHeadSortClick", "update:loading", "update:error", "load"],
   setup(__props, { expose, emit: emits }) {
     const props = __props;
-    const distanTableX = ref("");
     const tableHeight = ref(600);
-    const tablewidth = ref(0);
-    const tablecontent = ref(0);
+    const tableWidth = ref(0);
+    const tableContent = ref(0);
     const tableRef = ref(null);
     const tableContainerRef = ref(null);
+    const rem = Number(document.documentElement.style.fontSize.replace("px", ""));
+    const tableContentEL = ref(null);
+    const rowDownMarkTop = ref(0);
+    onMounted(() => {
+      tableContentEL.value = document.querySelector("#table-content");
+    });
     const disable = computed(() => props.disable);
     const moreMark = ref(false);
     const handleCellSize = (num) => {
-      return cellSize(num, props.multiple);
+      return cellSize(num, props.rootValue);
     };
     const loading = computed({
       get() {
@@ -426,6 +450,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       }
     };
     const handleHeadSortClick = (propKey, type) => {
+      rowDownMarkTop.value = 0;
       emits("handleHeadSortClick", propKey, type);
     };
     const handleDom = () => {
@@ -440,60 +465,71 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
         }
         if (index === -1)
           return;
-        const tabelDom = tableRef.value;
-        const firstColumn2 = (tabelDom == null ? void 0 : tabelDom.querySelector(".table-header .first-column")) || null;
+        const tableDom = tableRef.value;
+        const firstColumn2 = (tableDom == null ? void 0 : tableDom.querySelector(".table-header .first-column")) || null;
         const targetDom = (firstColumn2 == null ? void 0 : firstColumn2.children[index + 1]) || null;
         if (targetDom) {
-          targetDom.style.marginBottom = pxtorem(height, props.multiple);
+          targetDom.style.marginBottom = pxtorem(height, props.rootValue);
           pre_doms.push(targetDom);
         }
-        const rowDom = (_a = tabelDom == null ? void 0 : tabelDom.querySelector(".table-content")) == null ? void 0 : _a.children[index];
+        const rowDom = (_a = tableDom == null ? void 0 : tableDom.querySelector(".table-content")) == null ? void 0 : _a.children[index];
         const rowTarget = rowDom == null ? void 0 : rowDom.children;
         if (rowTarget) {
           Array.from(rowTarget).forEach((item) => {
-            item.style.marginBottom = pxtorem(height, props.multiple);
+            item.style.marginBottom = pxtorem(height, props.rootValue);
             pre_doms.push(item);
           });
         }
+        const top = rowDom.getBoundingClientRect().top - tableContentEL.value.getBoundingClientRect().top;
+        rowDownMarkTop.value = top + (props.rowHeight + height) / props.rootValue * rem;
       };
     };
     const firstColumn = computed(() => {
       return props.column[0];
     });
-    const [transformX, distanX, distanY] = useGetTransformX(
+    const handleTouchBottom = useDebounce((distanceX) => {
+      if (tableRef.value && distanceX !== 0) {
+        let temp = tableContent.value - (tableRef.value.clientWidth - distanceX);
+        if (temp < 10) {
+          moreMark.value = false;
+        } else {
+          moreMark.value = true;
+        }
+      }
+    }, 200);
+    const [distanX, distanY] = useGetTransformX(
       tableRef,
-      tablewidth,
-      tablecontent,
+      tableWidth,
+      tableContent,
       disable,
       bottomEvent,
-      props.offset
+      props.offset,
+      (val) => {
+        var _a;
+        if ((_a = tableContainerRef.value) == null ? void 0 : _a.titleRef) {
+          let dom = tableContainerRef.value.titleRef;
+          dom.style.transform = `translateX(${val}px)`;
+        }
+        if (tableContentEL.value) {
+          let dom = tableContentEL.value;
+          dom.style.transform = `translateX(${val}px)`;
+        }
+        handleTouchBottom(val);
+      }
     );
-    const count = computed(() => props.tableDatas.length);
+    const count = computed(() => props.tableDates.length);
     const { isShowRow } = useHandleScroll(
       40,
       count,
       props.rowHeight,
-      props.multiple,
+      props.rootValue,
       tableRef,
       disable,
       props.optimized
     );
     watchEffect(() => {
       if (tableRef.value) {
-        tablewidth.value = tableRef.value.clientWidth;
-      }
-    });
-    watchEffect(() => {
-      distanTableX.value = transformX.value + "px";
-    });
-    watchEffect(() => {
-      if (tableRef.value && transformX.value !== 0) {
-        let temp = tablecontent.value - (tableRef.value.clientWidth - transformX.value);
-        if (temp >= 0 && temp < 10) {
-          moreMark.value = false;
-        } else {
-          moreMark.value = true;
-        }
+        tableWidth.value = tableRef.value.clientWidth;
       }
     });
     watch(tableContainerRef, () => {
@@ -501,16 +537,16 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
         let children = tableContainerRef.value.titleRef.children;
         if (children.length > 0) {
           let count2 = 0;
-          Array.from(children).forEach((val, index) => {
-            count2 += val.clientWidth;
+          props.column.forEach((item) => {
+            count2 += item.width;
           });
-          tablecontent.value = count2;
-          moreMark.value = tablecontent.value > window.screen.width;
+          tableContent.value = count2 / props.rootValue * rem;
+          moreMark.value = count2 / props.rootValue * rem > window.screen.width;
         }
       }
     });
     watchEffect(() => {
-      if (props.tableDatas.length >= props.rowNum) {
+      if (props.tableDates.length >= props.rowNum) {
         tableHeight.value = Math.max(
           props.rowHeight * props.rowNum + props.headerHeight,
           props.minTableHeight
@@ -555,14 +591,10 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
             ref: tableContainerRef,
             column: props.column,
             class: normalizeClass(["title-header", { fixedHeader: props.fixedHeader }]),
-            style: normalizeStyle({
-              transform: `translateX(${distanTableX.value})`,
-              transition: "none"
-            }),
             onHandleHeadSortClick: handleHeadSortClick,
             slots: _ctx.$slots,
-            multiple: props.multiple
-          }, null, 8, ["column", "class", "style", "slots", "multiple"]),
+            rootValue: props.rootValue
+          }, null, 8, ["column", "class", "slots", "rootValue"]),
           props.fixedHeader ? (openBlock(), createElementBlock("section", {
             key: 1,
             style: normalizeStyle({
@@ -594,7 +626,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                 })
               }, null, 8, ["dataValue", "style"]))
             ], 4),
-            (openBlock(true), createElementBlock(Fragment, null, renderList(props.tableDatas, (item, index) => {
+            (openBlock(true), createElementBlock(Fragment, null, renderList(props.tableDates, (item, index) => {
               return openBlock(), createElementBlock(Fragment, null, [
                 unref(isShowRow)(index) ? (openBlock(), createElementBlock("div", {
                   key: 0,
@@ -618,11 +650,8 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
             }), 256))
           ], 4)
         ]),
-        createElementVNode("section", {
-          class: "table-content",
-          style: normalizeStyle(`transform: translateX(${distanTableX.value});transition:none`)
-        }, [
-          (openBlock(true), createElementBlock(Fragment, null, renderList(props.tableDatas, (item, index) => {
+        createElementVNode("section", _hoisted_5, [
+          (openBlock(true), createElementBlock(Fragment, null, renderList(props.tableDates, (item, index) => {
             return openBlock(), createElementBlock(Fragment, null, [
               unref(isShowRow)(index) ? (openBlock(), createBlock(H5TableRow, {
                 key: index,
@@ -630,25 +659,34 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                 column: props.column,
                 height: props.rowHeight,
                 slots: _ctx.$slots,
-                multiple: props.multiple,
+                rootValue: props.rootValue,
                 onTouchend: ($event) => handleClick(item, index)
-              }, null, 8, ["data-item", "column", "height", "slots", "multiple", "onTouchend"])) : createCommentVNode("", true)
+              }, null, 8, ["data-item", "column", "height", "slots", "rootValue", "onTouchend"])) : createCommentVNode("", true)
             ], 64);
           }), 256))
-        ], 4),
+        ]),
         withDirectives(createElementVNode("section", {
           class: "loading",
           onClick: tryAgain
         }, toDisplayString(unref(loadingText)), 513), [
           [vShow, props.disable && unref(loadingText).length > 0]
         ]),
-        renderSlot(_ctx.$slots, "rowDownMark", {}, void 0, true)
+        withDirectives(createElementVNode("div", {
+          class: "rowMarkContainer",
+          style: normalizeStyle({
+            top: rowDownMarkTop.value + "px"
+          })
+        }, [
+          renderSlot(_ctx.$slots, "rowDownMark", {}, void 0, true)
+        ], 4), [
+          [vShow, rowDownMarkTop.value > 0]
+        ])
       ], 4);
     };
   }
 });
-const h5Table_vue_vue_type_style_index_0_scoped_8c951104_lang = "";
-const h5Table = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-8c951104"]]);
+const h5Table_vue_vue_type_style_index_0_scoped_b55f195a_lang = "";
+const h5Table = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-b55f195a"]]);
 export {
   h5Table as H5Table
 };

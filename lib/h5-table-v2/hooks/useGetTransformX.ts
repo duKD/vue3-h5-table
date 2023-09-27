@@ -9,7 +9,6 @@ export default function useGetTransformX(
   disable: Ref<boolean>,
   bottomLoadEvent: Function,
   offset: number,
-  handleTransform: Function,
   stopPropagation: boolean = true
 ) {
   const previousX = ref<number>(0);
@@ -42,7 +41,6 @@ export default function useGetTransformX(
         const temp = Math.min(previousX.value + distanX.value, 0);
         const res = Math.max(-max, temp);
         transformX.value = res;
-        handleTransform(transformX.value);
       }
     }
     // 兼容处理 滚动事件行为
@@ -66,5 +64,5 @@ export default function useGetTransformX(
     touchend,
   });
 
-  return [distanX, distanY];
+  return [transformX, distanX, distanY];
 }

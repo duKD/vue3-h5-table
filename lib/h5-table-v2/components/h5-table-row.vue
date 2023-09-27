@@ -1,5 +1,12 @@
 <template>
-  <section class="table-row">
+  <section
+    class="table-row"
+    :style="{
+      ...(props.width && {
+        width: props.width,
+      }),
+    }"
+  >
     <div
       v-for="(item, index) in props.column"
       :class="['table-row-column', index === 0 ? 'first-table-row-column' : '']"
@@ -32,6 +39,7 @@ type propsType = {
   height: number;
   slots: SetupContext["slots"];
   rootValue: number;
+  width: string;
 };
 
 const props = withDefaults(defineProps<propsType>(), {
@@ -44,8 +52,8 @@ const props = withDefaults(defineProps<propsType>(), {
   flex-wrap: nowrap;
 }
 .table-row-column {
-  flex-grow: 1;
-  flex-shrink: 0;
+  // flex-grow: 1;
+  // flex-shrink: 0;
   display: flex;
   justify-content: center;
   align-items: center;
