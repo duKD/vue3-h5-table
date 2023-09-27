@@ -338,6 +338,7 @@
     const debounce = (...args) => {
       if (timer.value) {
         clearTimeout(timer.value);
+        timer.value = null;
       }
       timer.value = setTimeout(() => {
         fn(...args);
@@ -350,7 +351,7 @@
     });
     return debounce;
   }
-  const _withScopeId = (n) => (vue.pushScopeId("data-v-b55f195a"), n = n(), vue.popScopeId(), n);
+  const _withScopeId = (n) => (vue.pushScopeId("data-v-2508346c"), n = n(), vue.popScopeId(), n);
   const _hoisted_1 = { class: "table-header" };
   const _hoisted_2 = { class: "fixed-title-more" };
   const _hoisted_3 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ vue.createElementVNode("div", { class: "mark" }, null, -1));
@@ -491,9 +492,9 @@
         return props.column[0];
       });
       const handleTouchBottom = useDebounce((distanceX) => {
-        if (tableRef.value && distanceX !== 0) {
+        if (tableRef.value) {
           let temp = tableContent.value - (tableRef.value.clientWidth - distanceX);
-          if (temp < 10) {
+          if (temp >= 0 && temp < 10) {
             moreMark.value = false;
           } else {
             moreMark.value = true;
@@ -688,8 +689,8 @@
       };
     }
   });
-  const h5Table_vue_vue_type_style_index_0_scoped_b55f195a_lang = "";
-  const h5Table = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-b55f195a"]]);
+  const h5Table_vue_vue_type_style_index_0_scoped_2508346c_lang = "";
+  const h5Table = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-2508346c"]]);
   exports2.H5Table = h5Table;
   Object.defineProperty(exports2, Symbol.toStringTag, { value: "Module" });
 });
