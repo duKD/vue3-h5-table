@@ -31,7 +31,7 @@ npm i vue3-table-h5
         <div style="height:100px" @click="change">change</div>
         <h5-table
           :column="column"
-          :table-datas="datas"
+          :table-dates="datas"
           @row-click="handleClick"
         >
         <template #title="item">
