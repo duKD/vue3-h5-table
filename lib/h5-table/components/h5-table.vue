@@ -316,7 +316,8 @@ const handleDom = () => {
       tableContentEL.value!.getBoundingClientRect().top;
 
     rowDownMarkTop.value =
-      (top as number) + ((props.rowHeight + height) / props.rootValue) * rem;
+      (top as number) +
+      ((props.rowHeight + props.headerHeight) / props.rootValue) * rem;
   };
 };
 

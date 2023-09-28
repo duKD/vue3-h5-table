@@ -314,6 +314,7 @@ const handelSell = () => {
 body {
   padding: 0;
   margin: 0 !important;
+  overflow: hidden;
 }
 </style>
 <style lang="scss" scoped>
