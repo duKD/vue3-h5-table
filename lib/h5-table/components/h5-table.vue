@@ -23,7 +23,13 @@
           :slots="$slots"
         />
       </div>
-      <div v-show="moreMark" class="fixed-title-more">
+      <div
+        v-show="moreMark"
+        class="fixed-title-more"
+        :style="{
+          height: handleCellSize(props.headerHeight),
+        }"
+      >
         <div class="mark"></div>
       </div>
       <h5-table-header
@@ -32,6 +38,7 @@
         :class="['title-header', { fixedHeader: props.fixedHeader }]"
         @handleHeadSortClick="handleHeadSortClick"
         :slots="$slots"
+        :height="props.headerHeight"
         :rootValue="props.rootValue"
       ></h5-table-header>
       <section
@@ -202,7 +209,7 @@ const disable = computed(() => props.disable);
 
 const moreMark = ref<boolean>(false);
 
-const handleCellSize = (num: number | undefined) => {
+const handleCellSize = (num: number) => {
   return cellSize(num, props.rootValue);
 };
 
@@ -404,6 +411,7 @@ defineExpose({
   position: relative;
   overflow-x: hidden;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   // overflow: hidden;
 }
 
@@ -455,7 +463,6 @@ defineExpose({
   position: fixed;
   right: 0;
   width: 60px;
-  height: 60px;
   z-index: 101;
   background-color: #fcfcfc;
 

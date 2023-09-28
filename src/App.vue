@@ -4,6 +4,7 @@
     <h5-table
       ref="h5TableRef"
       :fixed-header="true"
+      :header-height="80"
       :column="column"
       :table-dates="tableDates"
       @row-click="rowClick"
