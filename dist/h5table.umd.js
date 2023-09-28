@@ -21,9 +21,6 @@
     return x / rootValue + "rem";
   };
   const cellSize = (size, rootValue) => {
-    if (!size) {
-      return pxtorem(60, rootValue);
-    }
     return pxtorem(size, rootValue);
   };
   const _hoisted_1$2 = { class: "table-row" };
@@ -351,14 +348,13 @@
     });
     return debounce;
   }
-  const _withScopeId = (n) => (vue.pushScopeId("data-v-2508346c"), n = n(), vue.popScopeId(), n);
+  const _withScopeId = (n) => (vue.pushScopeId("data-v-6e7ffe99"), n = n(), vue.popScopeId(), n);
   const _hoisted_1 = { class: "table-header" };
-  const _hoisted_2 = { class: "fixed-title-more" };
-  const _hoisted_3 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ vue.createElementVNode("div", { class: "mark" }, null, -1));
-  const _hoisted_4 = [
-    _hoisted_3
+  const _hoisted_2 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ vue.createElementVNode("div", { class: "mark" }, null, -1));
+  const _hoisted_3 = [
+    _hoisted_2
   ];
-  const _hoisted_5 = {
+  const _hoisted_4 = {
     id: "table-content",
     class: "table-content"
   };
@@ -587,7 +583,12 @@
                 slots: _ctx.$slots
               }, null, 8, ["dataValue", "slotKey", "slots"]))
             ], 4)) : vue.createCommentVNode("", true),
-            vue.withDirectives(vue.createElementVNode("div", _hoisted_2, _hoisted_4, 512), [
+            vue.withDirectives(vue.createElementVNode("div", {
+              class: "fixed-title-more",
+              style: vue.normalizeStyle({
+                height: handleCellSize(props.headerHeight)
+              })
+            }, _hoisted_3, 4), [
               [vue.vShow, moreMark.value]
             ]),
             vue.createVNode(H5TableHeader, {
@@ -597,8 +598,9 @@
               class: vue.normalizeClass(["title-header", { fixedHeader: props.fixedHeader }]),
               onHandleHeadSortClick: handleHeadSortClick,
               slots: _ctx.$slots,
+              height: props.headerHeight,
               rootValue: props.rootValue
-            }, null, 8, ["column", "class", "slots", "rootValue"]),
+            }, null, 8, ["column", "class", "slots", "height", "rootValue"]),
             props.fixedHeader ? (vue.openBlock(), vue.createElementBlock("section", {
               key: 1,
               style: vue.normalizeStyle({
@@ -654,7 +656,7 @@
               }), 256))
             ], 4)
           ]),
-          vue.createElementVNode("section", _hoisted_5, [
+          vue.createElementVNode("section", _hoisted_4, [
             (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(props.tableDates, (item, index) => {
               return vue.openBlock(), vue.createElementBlock(vue.Fragment, null, [
                 vue.unref(isShowRow)(index) ? (vue.openBlock(), vue.createBlock(H5TableRow, {
@@ -689,8 +691,8 @@
       };
     }
   });
-  const h5Table_vue_vue_type_style_index_0_scoped_2508346c_lang = "";
-  const h5Table = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-2508346c"]]);
+  const h5Table_vue_vue_type_style_index_0_scoped_6e7ffe99_lang = "";
+  const h5Table = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-6e7ffe99"]]);
   exports2.H5Table = h5Table;
   Object.defineProperty(exports2, Symbol.toStringTag, { value: "Module" });
 });
