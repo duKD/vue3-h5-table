@@ -48,8 +48,7 @@ npm i vue3-table-h5
 </template>
 <script setup lang="ts">
 import {reactive} from 'vue'
-import  {H5Table} from 'vue3-h5-table'
-import type { columnItemType } from 'vue3-h5-table/dist/lib/h5-table/types';
+import  {H5Table, type columnItemType} from 'vue3-h5-table'
 import 'vue3-h5-table/dist/style.css'
 
 const handleClick = (item:any,index:number)=>{

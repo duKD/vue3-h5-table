@@ -69,8 +69,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { H5Table } from "../lib/h5-table";
-import type { columnItemType, sortStatusType } from "../lib/h5-table/types";
+import { H5Table, columnItemType, sortStatusType } from "../lib/h5-table";
 import { ref, watch } from "vue";
 
 const column: Array<columnItemType> = [

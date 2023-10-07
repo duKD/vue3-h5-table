@@ -345,7 +345,7 @@ function useDebounce(fn, delay) {
   });
   return debounce;
 }
-const _withScopeId = (n) => (pushScopeId("data-v-6e7ffe99"), n = n(), popScopeId(), n);
+const _withScopeId = (n) => (pushScopeId("data-v-ffe79f2d"), n = n(), popScopeId(), n);
 const _hoisted_1 = { class: "table-header" };
 const _hoisted_2 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createElementVNode("div", { class: "mark" }, null, -1));
 const _hoisted_3 = [
@@ -478,7 +478,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
           });
         }
         const top = rowDom.getBoundingClientRect().top - tableContentEL.value.getBoundingClientRect().top;
-        rowDownMarkTop.value = top + (props.rowHeight + height) / props.rootValue * rem;
+        rowDownMarkTop.value = top + (props.rowHeight + props.headerHeight) / props.rootValue * rem;
       };
     };
     const firstColumn = computed(() => {
@@ -688,8 +688,8 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const h5Table_vue_vue_type_style_index_0_scoped_6e7ffe99_lang = "";
-const h5Table = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-6e7ffe99"]]);
+const h5Table_vue_vue_type_style_index_0_scoped_ffe79f2d_lang = "";
+const h5Table = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-ffe79f2d"]]);
 export {
   h5Table as H5Table
 };
