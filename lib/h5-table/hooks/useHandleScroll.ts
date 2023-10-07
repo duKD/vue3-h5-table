@@ -3,8 +3,7 @@ import { Ref, ref, onUnmounted, watch } from "vue";
 export default function useHandleScroll(
   max: number, // 最多显示多少条
   count: Ref<number>, // 表格数据量
-  rowHeight: number, // 每行高度
-  rootValue: number, //
+  realRowHeight: Ref<number>, // 每行数据实际高度 px
   tableRef: Ref<HTMLElement | null>,
   disable: Ref<boolean>, // 是否开启下拉加载
   optimized: boolean // 是否开启优化
@@ -13,8 +12,7 @@ export default function useHandleScroll(
   const changeNum = 30;
   // 可以显示的列表索引数
   const showRange = ref<Array<number>>([0, max + changeNum * 2]);
-  const rem = Number(document.documentElement.style.fontSize.replace("px", ""));
-  const realRowHeight = (rowHeight / rootValue) * rem;
+
   // 滚动距离
   const scrollStart = ref<number>(0);
   const scrollEnd = ref<number>(0);
@@ -52,9 +50,9 @@ export default function useHandleScroll(
 
     hasDistance.value += scrollEnd.value - scrollStart.value;
 
-    curIndex.value = Math.ceil(hasDistance.value / realRowHeight);
+    curIndex.value = Math.ceil(hasDistance.value / realRowHeight.value);
 
-    let distanY = (scrollEnd.value - scrollStart.value) / realRowHeight;
+    let distanY = (scrollEnd.value - scrollStart.value) / realRowHeight.value;
 
     const hasScrollIndex =
       (distanY > 0 ? Math.ceil(distanY) : Math.floor(distanY)) + curIndex.value;

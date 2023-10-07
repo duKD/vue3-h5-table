@@ -1,7 +1,7 @@
 {
   "name": "vue3-h5-table",
   "private": false,
-  "version": "0.1.11",
+  "version": "0.1.12",
   "type": "module",
   "scripts": {
     "dev": "vite --host",
@@ -12,7 +12,6 @@
   "main": "./dist/h5table.umd.js",
   "module": "./dist/h5table.es.js",
   "dependencies": {
-    "@better-scroll/core": "^2.5.1",
     "autoprefixer": "^10.4.14",
     "vue": "^3.2.45"
   },

@@ -72,45 +72,41 @@
             }"
           />
         </div>
-        <template v-for="(item, index) in props.tableDates">
-          <div
-            :class="['table-row-column', 'first-table-row-column']"
-            :style="{
-              width: handleCellSize(firstColumn.width),
-              height: handleCellSize(props.rowHeight),
-              textAlign: firstColumn.align || 'center',
-            }"
-            v-if="isShowRow(index)"
-          >
-            <h5-table-cell
-              :key="index"
-              :dataValue="
-                firstColumn.dataIndex ? item[firstColumn.dataIndex] : ''
-              "
-              :dataItem="item"
-              :render="firstColumn.render"
-              :slotKey="firstColumn.slotKey"
-              :slots="$slots"
-            />
-          </div>
-        </template>
+        <div
+          v-for="(item, index) in props.tableDates"
+          :class="['table-row-column', 'first-table-row-column']"
+          :style="{
+            width: handleCellSize(firstColumn.width),
+            height: handleCellSize(props.rowHeight),
+            textAlign: firstColumn.align || 'center',
+          }"
+        >
+          <h5-table-cell
+            :key="index"
+            :dataValue="
+              firstColumn.dataIndex ? item[firstColumn.dataIndex] : ''
+            "
+            :dataItem="item"
+            :render="firstColumn.render"
+            :slotKey="firstColumn.slotKey"
+            :slots="$slots"
+          />
+        </div>
       </section>
     </section>
 
     <section id="table-content" class="table-content">
-      <template v-for="(item, index) in props.tableDates">
-        <h5-table-row
-          v-if="isShowRow(index)"
-          :key="index"
-          :data-item="item"
-          :column="props.column"
-          :height="props.rowHeight"
-          :slots="$slots"
-          :rootValue="props.rootValue"
-          @touchend.native="handleClick(item, index)"
-        >
-        </h5-table-row>
-      </template>
+      <h5-table-row
+        v-for="(item, index) in props.tableDates"
+        :key="index"
+        :data-item="item"
+        :column="props.column"
+        :height="props.rowHeight"
+        :slots="$slots"
+        :rootValue="props.rootValue"
+        @touchend.native="handleClick(item, index)"
+      >
+      </h5-table-row>
     </section>
     <section
       class="loading"
@@ -141,6 +137,7 @@ import { onMounted, computed, ref, watchEffect, watch } from "vue";
 import type { columnItemType, sortStatusType } from "../types";
 import { cellSize, pxtorem } from "../utils";
 import useDebounce from "../hooks/useDebounce";
+import useResize from "../hooks/useResize";
 
 type propsType = {
   minTableHeight?: number; //表格最小高度
@@ -160,7 +157,6 @@ type propsType = {
   finishedText?: string; // 完成文案
   offset?: number; //触发加载的底部距离
   rootValue?: number; //
-  optimized?: boolean; // 是否开启优化
 };
 
 type emitType = {
@@ -176,13 +172,9 @@ const tableWidth = ref<number>(0);
 const tableContent = ref<number>(0);
 const tableRef = ref<HTMLElement | null>(null);
 const tableContainerRef = ref<typeof H5TableHeader | null>(null);
-const rem = Number(document.documentElement.style.fontSize.replace("px", ""));
 const tableContentEL = ref<HTMLElement | null>(null);
 const rowDownMarkTop = ref<number>(0);
 
-onMounted(() => {
-  tableContentEL.value = document.querySelector("#table-content");
-});
 const props = withDefaults(defineProps<propsType>(), {
   minTableHeight: 600,
   rowNum: 6,
@@ -200,7 +192,6 @@ const props = withDefaults(defineProps<propsType>(), {
   finishedText: "到底了", // 完成文案
   offset: 10,
   rootValue: 75,
-  optimized: false,
 });
 
 const emits = defineEmits<emitType>();
@@ -269,7 +260,6 @@ const handleClick = (item: any, index: number) => {
 };
 
 const handleHeadSortClick = (propKey: string, type: sortStatusType) => {
-  rowDownMarkTop.value = 0;
   emits("handleHeadSortClick", propKey, type);
 };
 
@@ -287,7 +277,10 @@ const handleDom = () => {
     }
 
     // index -1 表示 恢复margin 移动
-    if (index === -1) return;
+    if (index === -1) {
+      rowDownMarkTop.value = 0;
+      return;
+    }
 
     const tableDom = tableRef.value;
     //获取第一列
@@ -309,7 +302,7 @@ const handleDom = () => {
         pre_doms.push(item);
       });
     }
-
+    let rem = Number(document.documentElement.style.fontSize.replace("px", ""));
     // 计算 点击元素插槽下移距离
     const top =
       rowDom!.getBoundingClientRect().top -
@@ -320,6 +313,8 @@ const handleDom = () => {
       ((props.rowHeight + props.headerHeight) / props.rootValue) * rem;
   };
 };
+
+const realHandleDom = handleDom();
 
 const firstColumn = computed(() => {
   return props.column[0];
@@ -358,27 +353,12 @@ const [distanX, distanY] = useGetTransformX(
   }
 );
 
-const count = computed(() => props.tableDates.length);
-
-const { isShowRow } = useHandleScroll(
-  40,
-  count,
-  props.rowHeight,
-  props.rootValue,
-  tableRef,
-  disable,
-  props.optimized
-);
-
-watchEffect(() => {
-  if (tableRef.value) {
-    tableWidth.value = tableRef.value.clientWidth;
-  }
-});
+const realRowHeight = ref<number>(100);
 
 //计算 表格内容的宽度
-watch(tableContainerRef, () => {
+const calculateTableContent = () => {
   if (tableContainerRef.value && tableContainerRef.value.titleRef) {
+    let rem = Number(document.documentElement.style.fontSize.replace("px", ""));
     let children: HTMLCollection = tableContainerRef.value.titleRef.children;
     if (children.length > 0) {
       // 是否显示更多的标识
@@ -391,7 +371,36 @@ watch(tableContainerRef, () => {
       moreMark.value = (count / props.rootValue) * rem > window.screen.width;
     }
   }
+};
+//计算 表格可视区宽度
+const calculateTableWidth = () => {
+  if (tableRef.value) {
+    tableWidth.value = tableRef.value.clientWidth;
+  }
+};
+
+const calculateRealRowHeight = () => {
+  const rem = Number(document.documentElement.style.fontSize.replace("px", ""));
+  realRowHeight.value = (props.rowHeight / props.rootValue) * rem;
+};
+
+onMounted(() => {
+  tableContentEL.value = document.querySelector("#table-content");
+  calculateTableContent();
+  calculateTableWidth();
+  calculateRealRowHeight();
 });
+
+const recoverHandleDom = () => {
+  realHandleDom(props.rowHeight, -1);
+};
+
+useResize([
+  calculateTableContent,
+  calculateTableWidth,
+  calculateRealRowHeight,
+  recoverHandleDom,
+]);
 
 watchEffect(() => {
   if (props.tableDates.length >= props.rowNum) {
@@ -403,7 +412,7 @@ watchEffect(() => {
 });
 
 defineExpose({
-  handleDom: handleDom(),
+  handleDom: realHandleDom,
   tableRef,
 });
 </script>
