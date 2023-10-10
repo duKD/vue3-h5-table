@@ -1,6 +1,6 @@
 <template>
   <div class="position">
-    <section style="height: 200px"></section>
+    <!-- <section style="height: 200px"></section> -->
     <h5-table
       ref="h5TableRef"
       :fixed-header="true"
@@ -13,6 +13,7 @@
       :is-click="true"
       v-model:loading="loading"
       :finish="finish"
+      disable
       @load="onload"
     >
       <template #titleSlot>
@@ -220,7 +221,7 @@ const datas = [
   },
 ];
 
-const temp = Array.from({ length: 300 }).map((item, index) => {
+const temp = Array.from({ length: 20 }).map((item, index) => {
   return {
     id: index,
     select: "三年二班",
@@ -248,10 +249,11 @@ const finish = ref<boolean>(false);
 const onload = () => {
   console.log("loading====");
   setTimeout(() => {
+    let len = tableDates.value.length;
     tableDates.value = tableDates.value.concat(
       Array.from({ length: 100 }).map((item, index) => {
         return {
-          id: new Date().getTime() + index,
+          id: len + index,
           select: "三年二班",
           type: 1,
           position: "27000",
@@ -285,9 +287,6 @@ const rowClick = (item: any, index: number) => {
 
 //处理排序
 const handleHeadSortClick = (propsKey: string, type: sortStatusType) => {
-  if (h5TableRef.value) {
-    h5TableRef.value.handleDom(60, -1);
-  }
   if (type === 0) {
     tableDates.value.splice(0, tableDates.value.length, ...datas);
     return;

@@ -1,4 +1,39 @@
 <template>
+  <section class="table-header">
+    <div
+      class="fixed-title-mark"
+      :style="{
+        width: handleCellSize(firstColumn.width),
+        height: handleCellSize(props.headerHeight),
+        textAlign: firstColumn.align || 'center',
+      }"
+    >
+      <h5-table-cell
+        :key="Math.random()"
+        :dataValue="firstColumn.title"
+        :slotKey="firstColumn.slotTitleKey"
+        :slots="$slots"
+      />
+    </div>
+    <div
+      v-show="moreMark"
+      class="fixed-title-more"
+      :style="{
+        height: handleCellSize(props.headerHeight),
+      }"
+    >
+      <div class="mark"></div>
+    </div>
+    <h5-table-header
+      ref="tableContainerRef"
+      :column="props.column"
+      :class="['title-header']"
+      @handleHeadSortClick="handleHeadSortClick"
+      :slots="$slots"
+      :height="props.headerHeight"
+      :rootValue="props.rootValue"
+    ></h5-table-header>
+  </section>
   <div
     ref="tableRef"
     class="table"
@@ -6,95 +41,31 @@
       height: handleCellSize(tableHeight),
     }"
   >
-    <section class="table-header">
+    <section
+      class="first-column"
+      :style="{
+        width: handleCellSize(firstColumn.width),
+      }"
+    >
       <div
-        class="fixed-title-mark"
-        v-if="props.fixedHeader"
+        v-for="(item, index) in props.tableDates"
+        :class="['table-row-column', 'first-table-row-column']"
         :style="{
           width: handleCellSize(firstColumn.width),
-          height: handleCellSize(props.headerHeight),
+          height: handleCellSize(props.rowHeight),
           textAlign: firstColumn.align || 'center',
         }"
       >
         <h5-table-cell
-          :key="Math.random()"
-          :dataValue="firstColumn.title"
-          :slotKey="firstColumn.slotTitleKey"
+          :key="index"
+          :dataValue="firstColumn.dataIndex ? item[firstColumn.dataIndex] : ''"
+          :dataItem="item"
+          :render="firstColumn.render"
+          :slotKey="firstColumn.slotKey"
           :slots="$slots"
         />
       </div>
-      <div
-        v-show="moreMark"
-        class="fixed-title-more"
-        :style="{
-          height: handleCellSize(props.headerHeight),
-        }"
-      >
-        <div class="mark"></div>
-      </div>
-      <h5-table-header
-        ref="tableContainerRef"
-        :column="props.column"
-        :class="['title-header', { fixedHeader: props.fixedHeader }]"
-        @handleHeadSortClick="handleHeadSortClick"
-        :slots="$slots"
-        :height="props.headerHeight"
-        :rootValue="props.rootValue"
-      ></h5-table-header>
-      <section
-        v-if="props.fixedHeader"
-        :style="{
-          height: handleCellSize(props.headerHeight),
-        }"
-      ></section>
-      <section
-        class="first-column"
-        :style="{
-          width: handleCellSize(firstColumn.width),
-        }"
-      >
-        <div
-          :class="['table-row-column', 'first-table-row-column']"
-          :style="{
-            width: handleCellSize(firstColumn.width),
-            height: handleCellSize(props.headerHeight),
-            borderBottom: 'none',
-            textAlign: firstColumn.align || 'center',
-          }"
-        >
-          <h5-table-cell
-            :key="Math.random()"
-            :dataValue="firstColumn.title"
-            :style="{
-              ...(props.fixedHeader && {
-                visibility: 'hidden',
-              }),
-            }"
-          />
-        </div>
-        <div
-          v-for="(item, index) in props.tableDates"
-          :class="['table-row-column', 'first-table-row-column']"
-          :style="{
-            width: handleCellSize(firstColumn.width),
-            height: handleCellSize(props.rowHeight),
-            textAlign: firstColumn.align || 'center',
-          }"
-        >
-          <h5-table-cell
-            :key="index"
-            :dataValue="
-              firstColumn.dataIndex ? item[firstColumn.dataIndex] : ''
-            "
-            :dataItem="item"
-            :render="firstColumn.render"
-            :slotKey="firstColumn.slotKey"
-            :slots="$slots"
-          />
-        </div>
-      </section>
     </section>
-
     <section id="table-content" class="table-content">
       <h5-table-row
         v-for="(item, index) in props.tableDates"
@@ -259,6 +230,8 @@ const handleClick = (item: any, index: number) => {
 };
 
 const handleHeadSortClick = (propKey: string, type: sortStatusType) => {
+  //先恢复 rowMarkContainer 再排序
+  realHandleDom(0, -1);
   emits("handleHeadSortClick", propKey, type);
 };
 
@@ -283,17 +256,16 @@ const handleDom = () => {
 
     const tableDom = tableRef.value;
     //获取第一列
-    const firstColumn =
-      tableDom?.querySelector(".table-header .first-column") || null;
+    const firstColumn = tableDom?.querySelector(".table .first-column") || null;
 
-    const targetDom = firstColumn?.children[index + 1] || null;
+    const targetDom = firstColumn?.children[index] || null;
     if (targetDom) {
       (targetDom as any).style.marginBottom = pxtorem(height, props.rootValue);
       pre_doms.push(targetDom);
     }
 
     // 移动 index 所属的行
-    const rowDom = tableDom?.querySelector(".table-content")?.children[index];
+    const rowDom = tableDom?.querySelector("#table-content")?.children[index];
     const rowTarget: HTMLCollection | undefined = rowDom?.children;
     if (rowTarget) {
       Array.from(rowTarget).forEach((item) => {
@@ -308,8 +280,7 @@ const handleDom = () => {
       tableContentEL.value!.getBoundingClientRect().top;
 
     rowDownMarkTop.value =
-      (top as number) +
-      ((props.rowHeight + props.headerHeight) / props.rootValue) * rem;
+      (top as number) + (props.rowHeight / props.rootValue) * rem;
   };
 };
 
@@ -421,19 +392,19 @@ defineExpose({
   overflow-x: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  // overflow: hidden;
 }
 
 .fixedHeader {
-  position: fixed;
+  // position: fixed;
   z-index: 100;
   min-width: 100%;
 }
 .table-header {
   position: relative;
+  overflow: hidden;
 }
 .fixed-title-mark {
-  position: fixed;
+  position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -469,7 +440,7 @@ defineExpose({
 }
 
 .fixed-title-more {
-  position: fixed;
+  position: absolute;
   right: 0;
   width: 60px;
   z-index: 101;
