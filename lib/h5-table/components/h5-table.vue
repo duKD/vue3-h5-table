@@ -132,7 +132,6 @@ import h5TableCell from "./h5-table-cell";
 import H5TableRow from "./h5-table-row.vue";
 import H5TableHeader from "./h5-table-header.vue";
 import useGetTransformX from "../hooks/useGetTransformX";
-import useHandleScroll from "../hooks/useHandleScroll";
 import { onMounted, computed, ref, watchEffect, watch } from "vue";
 import type { columnItemType, sortStatusType } from "../types";
 import { cellSize, pxtorem } from "../utils";
