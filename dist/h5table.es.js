@@ -291,7 +291,7 @@ function useResize(fn) {
     });
   });
 }
-const _withScopeId = (n) => (pushScopeId("data-v-0df499ad"), n = n(), popScopeId(), n);
+const _withScopeId = (n) => (pushScopeId("data-v-93c651a5"), n = n(), popScopeId(), n);
 const _hoisted_1 = { class: "table-header" };
 const _hoisted_2 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createElementVNode("div", { class: "mark" }, null, -1));
 const _hoisted_3 = [
@@ -388,6 +388,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       }
     };
     const handleHeadSortClick = (propKey, type) => {
+      realHandleDom(0, -1);
       emits("handleHeadSortClick", propKey, type);
     };
     const handleDom = () => {
@@ -405,13 +406,13 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
           return;
         }
         const tableDom = tableRef.value;
-        const firstColumn2 = (tableDom == null ? void 0 : tableDom.querySelector(".table-header .first-column")) || null;
-        const targetDom = (firstColumn2 == null ? void 0 : firstColumn2.children[index + 1]) || null;
+        const firstColumn2 = (tableDom == null ? void 0 : tableDom.querySelector(".table .first-column")) || null;
+        const targetDom = (firstColumn2 == null ? void 0 : firstColumn2.children[index]) || null;
         if (targetDom) {
           targetDom.style.marginBottom = pxtorem(height, props.rootValue);
           pre_doms.push(targetDom);
         }
-        const rowDom = (_a = tableDom == null ? void 0 : tableDom.querySelector(".table-content")) == null ? void 0 : _a.children[index];
+        const rowDom = (_a = tableDom == null ? void 0 : tableDom.querySelector("#table-content")) == null ? void 0 : _a.children[index];
         const rowTarget = rowDom == null ? void 0 : rowDom.children;
         if (rowTarget) {
           Array.from(rowTarget).forEach((item) => {
@@ -421,7 +422,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
         }
         let rem = Number(document.documentElement.style.fontSize.replace("px", ""));
         const top = rowDom.getBoundingClientRect().top - tableContentEL.value.getBoundingClientRect().top;
-        rowDownMarkTop.value = top + (props.rowHeight + props.headerHeight) / props.rootValue * rem;
+        rowDownMarkTop.value = top + props.rowHeight / props.rootValue * rem;
       };
     };
     const realHandleDom = handleDom();
@@ -510,17 +511,9 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       tableRef
     });
     return (_ctx, _cache) => {
-      return openBlock(), createElementBlock("div", {
-        ref_key: "tableRef",
-        ref: tableRef,
-        class: "table",
-        style: normalizeStyle({
-          height: handleCellSize(tableHeight.value)
-        })
-      }, [
+      return openBlock(), createElementBlock(Fragment, null, [
         createElementVNode("section", _hoisted_1, [
-          props.fixedHeader ? (openBlock(), createElementBlock("div", {
-            key: 0,
+          createElementVNode("div", {
             class: "fixed-title-mark",
             style: normalizeStyle({
               width: handleCellSize(unref(firstColumn).width),
@@ -534,7 +527,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
               slotKey: unref(firstColumn).slotTitleKey,
               slots: _ctx.$slots
             }, null, 8, ["dataValue", "slotKey", "slots"]))
-          ], 4)) : createCommentVNode("", true),
+          ], 4),
           withDirectives(createElementVNode("div", {
             class: "fixed-title-more",
             style: normalizeStyle({
@@ -547,43 +540,27 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
             ref_key: "tableContainerRef",
             ref: tableContainerRef,
             column: props.column,
-            class: normalizeClass(["title-header", { fixedHeader: props.fixedHeader }]),
+            class: normalizeClass(["title-header"]),
             onHandleHeadSortClick: handleHeadSortClick,
             slots: _ctx.$slots,
             height: props.headerHeight,
             rootValue: props.rootValue
-          }, null, 8, ["column", "class", "slots", "height", "rootValue"]),
-          props.fixedHeader ? (openBlock(), createElementBlock("section", {
-            key: 1,
-            style: normalizeStyle({
-              height: handleCellSize(props.headerHeight)
-            })
-          }, null, 4)) : createCommentVNode("", true),
+          }, null, 8, ["column", "slots", "height", "rootValue"])
+        ]),
+        createElementVNode("div", {
+          ref_key: "tableRef",
+          ref: tableRef,
+          class: "table",
+          style: normalizeStyle({
+            height: handleCellSize(tableHeight.value)
+          })
+        }, [
           createElementVNode("section", {
             class: "first-column",
             style: normalizeStyle({
               width: handleCellSize(unref(firstColumn).width)
             })
           }, [
-            createElementVNode("div", {
-              class: normalizeClass(["table-row-column", "first-table-row-column"]),
-              style: normalizeStyle({
-                width: handleCellSize(unref(firstColumn).width),
-                height: handleCellSize(props.headerHeight),
-                borderBottom: "none",
-                textAlign: unref(firstColumn).align || "center"
-              })
-            }, [
-              (openBlock(), createBlock(unref(h5TableCell), {
-                key: Math.random(),
-                dataValue: unref(firstColumn).title,
-                style: normalizeStyle({
-                  ...props.fixedHeader && {
-                    visibility: "hidden"
-                  }
-                })
-              }, null, 8, ["dataValue", "style"]))
-            ], 4),
             (openBlock(true), createElementBlock(Fragment, null, renderList(props.tableDates, (item, index) => {
               return openBlock(), createElementBlock("div", {
                 class: normalizeClass(["table-row-column", "first-table-row-column"]),
@@ -603,43 +580,43 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                 }, null, 8, ["dataValue", "dataItem", "render", "slotKey", "slots"]))
               ], 4);
             }), 256))
-          ], 4)
-        ]),
-        createElementVNode("section", _hoisted_4, [
-          (openBlock(true), createElementBlock(Fragment, null, renderList(props.tableDates, (item, index) => {
-            return openBlock(), createBlock(H5TableRow, {
-              key: index,
-              "data-item": item,
-              column: props.column,
-              height: props.rowHeight,
-              slots: _ctx.$slots,
-              rootValue: props.rootValue,
-              onTouchend: ($event) => handleClick(item, index)
-            }, null, 8, ["data-item", "column", "height", "slots", "rootValue", "onTouchend"]);
-          }), 128))
-        ]),
-        withDirectives(createElementVNode("section", {
-          class: "loading",
-          onClick: tryAgain
-        }, toDisplayString(unref(loadingText)), 513), [
-          [vShow, props.disable && unref(loadingText).length > 0]
-        ]),
-        withDirectives(createElementVNode("div", {
-          class: "rowMarkContainer",
-          style: normalizeStyle({
-            top: rowDownMarkTop.value + "px"
-          })
-        }, [
-          renderSlot(_ctx.$slots, "rowDownMark", {}, void 0, true)
-        ], 4), [
-          [vShow, rowDownMarkTop.value > 0]
-        ])
-      ], 4);
+          ], 4),
+          createElementVNode("section", _hoisted_4, [
+            (openBlock(true), createElementBlock(Fragment, null, renderList(props.tableDates, (item, index) => {
+              return openBlock(), createBlock(H5TableRow, {
+                key: index,
+                "data-item": item,
+                column: props.column,
+                height: props.rowHeight,
+                slots: _ctx.$slots,
+                rootValue: props.rootValue,
+                onTouchend: ($event) => handleClick(item, index)
+              }, null, 8, ["data-item", "column", "height", "slots", "rootValue", "onTouchend"]);
+            }), 128))
+          ]),
+          withDirectives(createElementVNode("section", {
+            class: "loading",
+            onClick: tryAgain
+          }, toDisplayString(unref(loadingText)), 513), [
+            [vShow, props.disable && unref(loadingText).length > 0]
+          ]),
+          withDirectives(createElementVNode("div", {
+            class: "rowMarkContainer",
+            style: normalizeStyle({
+              top: rowDownMarkTop.value + "px"
+            })
+          }, [
+            renderSlot(_ctx.$slots, "rowDownMark", {}, void 0, true)
+          ], 4), [
+            [vShow, rowDownMarkTop.value > 0]
+          ])
+        ], 4)
+      ], 64);
     };
   }
 });
-const h5Table_vue_vue_type_style_index_0_scoped_0df499ad_lang = "";
-const h5Table = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-0df499ad"]]);
+const h5Table_vue_vue_type_style_index_0_scoped_93c651a5_lang = "";
+const h5Table = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-93c651a5"]]);
 export {
   h5Table as H5Table
 };

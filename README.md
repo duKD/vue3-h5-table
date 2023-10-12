@@ -3,11 +3,18 @@
 ## 项目介绍
 
 ```
-一个 基于vue3 ts 的 h5 tabel 组件  支持 左右拖动 支持排序 支持动态 插槽 以及 点击 交互
+一个 基于vue3 ts 的 h5 table 组件  支持 左右拖动 支持排序 支持动态 插槽 以及 点击 交互
 
 使用文档链接  https://blog.csdn.net/weixin_45485922/article/details/129444600?spm=1001.2014.3001.5502
 
+更多使用 见github App.vue 文件
+链接： https://github.com/duKD/vue3-h5-table 
+
 ```
+
+
+
+## 简单使用
 
 ```
 vscode + node(16.19.0 以上 )+ pnpm
@@ -31,7 +38,7 @@ npm i vue3-table-h5
         <div style="height:100px" @click="change">change</div>
         <h5-table
           :column="column"
-          :table-dates="datas"
+          :table-dates="dates"
           @row-click="handleClick"
         >
         <template #title="item">
@@ -99,9 +106,9 @@ const column:Array<columnItemType> = [
     },
 ]
 
-const datas = [
+const dates = [
     {
-        select:'国泰',
+        select:'中国石化',
         newPrice:20,
         rateDie:'+20%',
         rateZ:'+9.7',
@@ -272,21 +279,21 @@ const datas = [
     },
 ]
 
-let tableDatas = reactive(datas)
+let tableDates = reactive(dates)
 
 const change = ()=>{
-    tableDatas = datas
-    console.log(3333,tableDatas);
+    tableDates = dates
+    console.log(3333,tableDates);
     setTimeout(()=>{
-        tableDatas = datas.reverse()
-        console.log(4444,tableDatas);
+        tableDates = dates.reverse()
+        console.log(4444,tableDates);
     },1000
     )
 }
 
 
 </script>
-<style lang="scss" scoped>
+<style scoped>
 .title{
     width: 100%;
 }
