@@ -2,21 +2,15 @@
   typeof exports === "object" && typeof module !== "undefined" ? factory(exports, require("vue")) : typeof define === "function" && define.amd ? define(["exports", "vue"], factory) : (global = typeof globalThis !== "undefined" ? globalThis : global || self, factory(global.h5table = {}, global.Vue));
 })(this, function(exports2, vue) {
   "use strict";
-  const h5TableCell = vue.defineComponent({
-    name: "H5TableCell",
-    props: ["render", "dataItem", "dataValue", "slotKey", "slots"],
-    setup(props) {
-      return () => {
-        if (props.slots && props.slotKey && props.slots[props.slotKey]) {
-          return props.slots[props.slotKey](props.dataItem);
-        }
-        if (props.render) {
-          return props.render(vue.h, props.dataItem);
-        }
-        return vue.h("div", { class: "cell", innerHTML: props.dataValue });
-      };
+  const H5TableCell = (props) => {
+    if (props.slots && props.slotKey && props.slots[props.slotKey]) {
+      return props.slots[props.slotKey](props.dataItem);
     }
-  });
+    if (props.render) {
+      return props.render(vue.h, props.dataItem);
+    }
+    return vue.h("div", { class: "cell", innerHTML: props.dataValue });
+  };
   const pxtorem = (x, rootValue) => {
     return x / rootValue + "rem";
   };
@@ -46,7 +40,7 @@
                 textAlign: item.align || "center"
               })
             }, [
-              (vue.openBlock(), vue.createBlock(vue.unref(h5TableCell), {
+              (vue.openBlock(), vue.createBlock(vue.unref(H5TableCell), {
                 key: index,
                 dataValue: item.dataIndex ? props.dataItem[item.dataIndex] : "",
                 dataItem: props.dataItem,
@@ -124,7 +118,7 @@
               }),
               onClick: ($event) => changeSortStatus(item)
             }, [
-              (vue.openBlock(), vue.createBlock(vue.unref(h5TableCell), {
+              (vue.openBlock(), vue.createBlock(vue.unref(H5TableCell), {
                 key: index,
                 dataValue: item.title,
                 slotKey: item.slotTitleKey,
@@ -294,7 +288,7 @@
       });
     });
   }
-  const _withScopeId = (n) => (vue.pushScopeId("data-v-93c651a5"), n = n(), vue.popScopeId(), n);
+  const _withScopeId = (n) => (vue.pushScopeId("data-v-8d27a025"), n = n(), vue.popScopeId(), n);
   const _hoisted_1 = { class: "table-header" };
   const _hoisted_2 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ vue.createElementVNode("div", { class: "mark" }, null, -1));
   const _hoisted_3 = [
@@ -504,7 +498,7 @@
       vue.watchEffect(() => {
         if (props.tableDates.length >= props.rowNum) {
           tableHeight.value = Math.max(
-            props.rowHeight * props.rowNum + props.headerHeight,
+            props.rowHeight * props.rowNum,
             props.minTableHeight
           );
         }
@@ -524,7 +518,7 @@
                 textAlign: vue.unref(firstColumn).align || "center"
               })
             }, [
-              (vue.openBlock(), vue.createBlock(vue.unref(h5TableCell), {
+              (vue.openBlock(), vue.createBlock(vue.unref(H5TableCell), {
                 key: Math.random(),
                 dataValue: vue.unref(firstColumn).title,
                 slotKey: vue.unref(firstColumn).slotTitleKey,
@@ -573,7 +567,7 @@
                     textAlign: vue.unref(firstColumn).align || "center"
                   })
                 }, [
-                  (vue.openBlock(), vue.createBlock(vue.unref(h5TableCell), {
+                  (vue.openBlock(), vue.createBlock(vue.unref(H5TableCell), {
                     key: index,
                     dataValue: vue.unref(firstColumn).dataIndex ? item[vue.unref(firstColumn).dataIndex] : "",
                     dataItem: item,
@@ -601,7 +595,7 @@
               class: "loading",
               onClick: tryAgain
             }, vue.toDisplayString(vue.unref(loadingText)), 513), [
-              [vue.vShow, props.disable && vue.unref(loadingText).length > 0]
+              [vue.vShow, props.disable]
             ]),
             vue.withDirectives(vue.createElementVNode("div", {
               class: "rowMarkContainer",
@@ -618,8 +612,8 @@
       };
     }
   });
-  const h5Table_vue_vue_type_style_index_0_scoped_93c651a5_lang = "";
-  const h5Table = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-93c651a5"]]);
+  const h5Table_vue_vue_type_style_index_0_scoped_8d27a025_lang = "";
+  const h5Table = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-8d27a025"]]);
   exports2.H5Table = h5Table;
   Object.defineProperty(exports2, Symbol.toStringTag, { value: "Module" });
 });

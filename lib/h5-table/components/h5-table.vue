@@ -79,11 +79,7 @@
       >
       </h5-table-row>
     </section>
-    <section
-      class="loading"
-      @click="tryAgain"
-      v-show="props.disable && loadingText.length > 0"
-    >
+    <section class="loading" @click="tryAgain" v-show="props.disable">
       {{ loadingText }}
     </section>
 
@@ -375,7 +371,7 @@ useResize([
 watchEffect(() => {
   if (props.tableDates.length >= props.rowNum) {
     tableHeight.value = Math.max(
-      props.rowHeight * props.rowNum + props.headerHeight,
+      props.rowHeight * props.rowNum,
       props.minTableHeight
     );
   }
@@ -432,6 +428,8 @@ defineExpose({
 }
 .loading {
   text-align: center;
+  height: 50px;
+  line-height: 50px;
 }
 .rowMarkContainer {
   width: 100%;

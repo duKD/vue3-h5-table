@@ -1,19 +1,13 @@
-import { defineComponent, h, openBlock, createElementBlock, Fragment, renderList, normalizeClass, normalizeStyle, unref, createBlock, ref, createCommentVNode, pushScopeId, popScopeId, createElementVNode, reactive, watch, onUnmounted, onMounted, onBeforeUnmount, computed, watchEffect, withDirectives, vShow, createVNode, toDisplayString, renderSlot } from "vue";
-const h5TableCell = defineComponent({
-  name: "H5TableCell",
-  props: ["render", "dataItem", "dataValue", "slotKey", "slots"],
-  setup(props) {
-    return () => {
-      if (props.slots && props.slotKey && props.slots[props.slotKey]) {
-        return props.slots[props.slotKey](props.dataItem);
-      }
-      if (props.render) {
-        return props.render(h, props.dataItem);
-      }
-      return h("div", { class: "cell", innerHTML: props.dataValue });
-    };
+import { h, defineComponent, openBlock, createElementBlock, Fragment, renderList, normalizeClass, normalizeStyle, unref, createBlock, ref, createCommentVNode, pushScopeId, popScopeId, createElementVNode, reactive, watch, onUnmounted, onMounted, onBeforeUnmount, computed, watchEffect, withDirectives, vShow, createVNode, toDisplayString, renderSlot } from "vue";
+const H5TableCell = (props) => {
+  if (props.slots && props.slotKey && props.slots[props.slotKey]) {
+    return props.slots[props.slotKey](props.dataItem);
   }
-});
+  if (props.render) {
+    return props.render(h, props.dataItem);
+  }
+  return h("div", { class: "cell", innerHTML: props.dataValue });
+};
 const pxtorem = (x, rootValue) => {
   return x / rootValue + "rem";
 };
@@ -43,7 +37,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
               textAlign: item.align || "center"
             })
           }, [
-            (openBlock(), createBlock(unref(h5TableCell), {
+            (openBlock(), createBlock(unref(H5TableCell), {
               key: index,
               dataValue: item.dataIndex ? props.dataItem[item.dataIndex] : "",
               dataItem: props.dataItem,
@@ -121,7 +115,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
             }),
             onClick: ($event) => changeSortStatus(item)
           }, [
-            (openBlock(), createBlock(unref(h5TableCell), {
+            (openBlock(), createBlock(unref(H5TableCell), {
               key: index,
               dataValue: item.title,
               slotKey: item.slotTitleKey,
@@ -291,7 +285,7 @@ function useResize(fn) {
     });
   });
 }
-const _withScopeId = (n) => (pushScopeId("data-v-93c651a5"), n = n(), popScopeId(), n);
+const _withScopeId = (n) => (pushScopeId("data-v-8d27a025"), n = n(), popScopeId(), n);
 const _hoisted_1 = { class: "table-header" };
 const _hoisted_2 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createElementVNode("div", { class: "mark" }, null, -1));
 const _hoisted_3 = [
@@ -501,7 +495,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     watchEffect(() => {
       if (props.tableDates.length >= props.rowNum) {
         tableHeight.value = Math.max(
-          props.rowHeight * props.rowNum + props.headerHeight,
+          props.rowHeight * props.rowNum,
           props.minTableHeight
         );
       }
@@ -521,7 +515,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
               textAlign: unref(firstColumn).align || "center"
             })
           }, [
-            (openBlock(), createBlock(unref(h5TableCell), {
+            (openBlock(), createBlock(unref(H5TableCell), {
               key: Math.random(),
               dataValue: unref(firstColumn).title,
               slotKey: unref(firstColumn).slotTitleKey,
@@ -570,7 +564,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                   textAlign: unref(firstColumn).align || "center"
                 })
               }, [
-                (openBlock(), createBlock(unref(h5TableCell), {
+                (openBlock(), createBlock(unref(H5TableCell), {
                   key: index,
                   dataValue: unref(firstColumn).dataIndex ? item[unref(firstColumn).dataIndex] : "",
                   dataItem: item,
@@ -598,7 +592,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
             class: "loading",
             onClick: tryAgain
           }, toDisplayString(unref(loadingText)), 513), [
-            [vShow, props.disable && unref(loadingText).length > 0]
+            [vShow, props.disable]
           ]),
           withDirectives(createElementVNode("div", {
             class: "rowMarkContainer",
@@ -615,8 +609,8 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const h5Table_vue_vue_type_style_index_0_scoped_93c651a5_lang = "";
-const h5Table = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-93c651a5"]]);
+const h5Table_vue_vue_type_style_index_0_scoped_8d27a025_lang = "";
+const h5Table = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-8d27a025"]]);
 export {
   h5Table as H5Table
 };
