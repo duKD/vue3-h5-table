@@ -213,6 +213,11 @@ function useTouchMoveLeftAndRight(target, options) {
 function useGetTransformX(target, tablewidth, tableContent, disable, bottomLoadEvent, offset, handleTransform, stopPropagation = true) {
   const previousX = ref(0);
   const transformX = ref(0);
+  const resetMove = () => {
+    previousX.value = 0;
+    transformX.value = 0;
+    handleTransform(0);
+  };
   const handleBottom = () => {
     if (target.value) {
       if (target.value.scrollHeight - target.value.scrollTop < target.value.clientHeight + offset) {
@@ -253,7 +258,7 @@ function useGetTransformX(target, tablewidth, tableContent, disable, bottomLoadE
     touchmove,
     touchend
   });
-  return [distanX, distanY];
+  return { distanX, distanY, resetMove };
 }
 function useDebounce(fn, delay) {
   const timer = ref(null);
@@ -285,7 +290,7 @@ function useResize(fn) {
     });
   });
 }
-const _withScopeId = (n) => (pushScopeId("data-v-8d27a025"), n = n(), popScopeId(), n);
+const _withScopeId = (n) => (pushScopeId("data-v-039b2978"), n = n(), popScopeId(), n);
 const _hoisted_1 = { class: "table-header" };
 const _hoisted_2 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createElementVNode("div", { class: "mark" }, null, -1));
 const _hoisted_3 = [
@@ -433,25 +438,26 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
         }
       }
     }, 200);
-    const [distanX, distanY] = useGetTransformX(
+    const handleTransform = (val) => {
+      var _a;
+      if ((_a = tableContainerRef.value) == null ? void 0 : _a.titleRef) {
+        let dom = tableContainerRef.value.titleRef;
+        dom.style.transform = `translateX(${val}px)`;
+      }
+      if (tableContentEL.value) {
+        let dom = tableContentEL.value;
+        dom.style.transform = `translateX(${val}px)`;
+      }
+      handleTouchBottom(val);
+    };
+    const { distanX, distanY, resetMove } = useGetTransformX(
       tableRef,
       tableWidth,
       tableContent,
       disable,
       bottomEvent,
       props.offset,
-      (val) => {
-        var _a;
-        if ((_a = tableContainerRef.value) == null ? void 0 : _a.titleRef) {
-          let dom = tableContainerRef.value.titleRef;
-          dom.style.transform = `translateX(${val}px)`;
-        }
-        if (tableContentEL.value) {
-          let dom = tableContentEL.value;
-          dom.style.transform = `translateX(${val}px)`;
-        }
-        handleTouchBottom(val);
-      }
+      handleTransform
     );
     const realRowHeight = ref(100);
     const calculateTableContent = () => {
@@ -490,7 +496,8 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       calculateTableContent,
       calculateTableWidth,
       calculateRealRowHeight,
-      recoverHandleDom
+      recoverHandleDom,
+      resetMove
     ]);
     watchEffect(() => {
       if (props.tableDates.length >= props.rowNum) {
@@ -500,6 +507,17 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
         );
       }
     });
+    watch(
+      () => props.column,
+      () => {
+        calculateTableContent();
+        calculateTableWidth();
+        calculateRealRowHeight();
+        recoverHandleDom();
+        resetMove();
+      },
+      { deep: true }
+    );
     expose({
       handleDom: realHandleDom,
       tableRef
@@ -609,8 +627,8 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const h5Table_vue_vue_type_style_index_0_scoped_8d27a025_lang = "";
-const h5Table = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-8d27a025"]]);
+const h5Table_vue_vue_type_style_index_0_scoped_039b2978_lang = "";
+const h5Table = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-039b2978"]]);
 export {
   h5Table as H5Table
 };
