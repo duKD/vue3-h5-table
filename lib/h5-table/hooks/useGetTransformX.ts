@@ -16,6 +16,13 @@ export default function useGetTransformX(
 
   const transformX = ref<number>(0);
 
+  // 重置滚动
+  const resetMove = () => {
+    previousX.value = 0;
+    transformX.value = 0;
+    handleTransform(0);
+  };
+
   const handleBottom = () => {
     if (target.value) {
       if (
@@ -66,5 +73,5 @@ export default function useGetTransformX(
     touchend,
   });
 
-  return [distanX, distanY];
+  return { distanX, distanY, resetMove };
 }

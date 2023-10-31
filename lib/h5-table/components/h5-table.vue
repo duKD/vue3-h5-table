@@ -298,25 +298,27 @@ const handleTouchBottom = useDebounce((distanceX: number) => {
   }
 }, 200);
 
-const [distanX, distanY] = useGetTransformX(
+const handleTransform = (val: number) => {
+  if (tableContainerRef.value?.titleRef) {
+    let dom = tableContainerRef.value.titleRef;
+    dom.style.transform = `translateX(${val}px)`;
+  }
+  if (tableContentEL.value) {
+    let dom = tableContentEL.value;
+    dom.style.transform = `translateX(${val}px)`;
+  }
+
+  handleTouchBottom(val);
+};
+
+const { distanX, distanY, resetMove } = useGetTransformX(
   tableRef,
   tableWidth,
   tableContent,
   disable,
   bottomEvent,
   props.offset,
-  (val: number) => {
-    if (tableContainerRef.value?.titleRef) {
-      let dom = tableContainerRef.value.titleRef;
-      dom.style.transform = `translateX(${val}px)`;
-    }
-    if (tableContentEL.value) {
-      let dom = tableContentEL.value;
-      dom.style.transform = `translateX(${val}px)`;
-    }
-
-    handleTouchBottom(val);
-  }
+  handleTransform
 );
 
 const realRowHeight = ref<number>(100);
@@ -366,6 +368,7 @@ useResize([
   calculateTableWidth,
   calculateRealRowHeight,
   recoverHandleDom,
+  resetMove,
 ]);
 
 watchEffect(() => {
@@ -376,6 +379,19 @@ watchEffect(() => {
     );
   }
 });
+
+// 修改column 需要重新计算表格宽带
+watch(
+  () => props.column,
+  () => {
+    calculateTableContent();
+    calculateTableWidth();
+    calculateRealRowHeight();
+    recoverHandleDom();
+    resetMove();
+  },
+  { deep: true }
+);
 
 defineExpose({
   handleDom: realHandleDom,
