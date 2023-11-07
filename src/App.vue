@@ -1,12 +1,11 @@
 <template>
   <div class="position">
-    <!-- <section style="height: 200px"></section> -->
     <h5-table
       ref="h5TableRef"
       :fixed-header="true"
       :header-height="80"
       :column="column"
-      :table-dates="tableDates"
+      :table-datas="tableDatas"
       @row-click="rowClick"
       @handle-head-sort-click="handleHeadSortClick"
       v-model:error="error"
@@ -238,7 +237,7 @@ const temp = Array.from({ length: 20 }).map((item, index) => {
   };
 });
 
-const tableDates = ref<Array<any>>(JSON.parse(JSON.stringify(temp)));
+const tableDatas = ref<Array<any>>(JSON.parse(JSON.stringify(temp)));
 
 const h5TableRef = ref<typeof H5Table | null>(null);
 
@@ -249,8 +248,8 @@ const finish = ref<boolean>(false);
 const onload = () => {
   console.log("loading====");
   setTimeout(() => {
-    let len = tableDates.value.length;
-    tableDates.value = tableDates.value.concat(
+    let len = tableDatas.value.length;
+    tableDatas.value = tableDatas.value.concat(
       Array.from({ length: 100 }).map((item, index) => {
         return {
           id: len + index,
@@ -288,20 +287,20 @@ const rowClick = (item: any, index: number) => {
 //处理排序
 const handleHeadSortClick = (propsKey: string, type: sortStatusType) => {
   if (type === 0) {
-    tableDates.value.splice(0, tableDates.value.length, ...datas);
+    tableDatas.value.splice(0, tableDatas.value.length, ...datas);
     return;
   }
   if (propsKey === "positionAndUse") {
     if (type === 1) {
-      tableDates.value.sort((a, b) => Number(b.position) - Number(a.position));
+      tableDatas.value.sort((a, b) => Number(b.position) - Number(a.position));
     } else {
-      tableDates.value.sort((a, b) => Number(a.position) - Number(b.position));
+      tableDatas.value.sort((a, b) => Number(a.position) - Number(b.position));
     }
   }
 };
 
-watch(tableDates.value, () => {
-  console.log("watch====", tableDates);
+watch(tableDatas.value, () => {
+  console.log("watch====", tableDatas);
 });
 
 const handelSell = () => {

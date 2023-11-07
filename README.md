@@ -30,7 +30,7 @@ pnpm run dev
 预览
 
 在vue3 项目使用
-npm i vue3-table-h5
+npm i vue3-h5-table
 
 例子如下：
 <template>
@@ -38,7 +38,7 @@ npm i vue3-table-h5
         <div style="height:100px" @click="change">change</div>
         <h5-table
           :column="column"
-          :table-dates="dates"
+          :table-datas="datas"
           @row-click="handleClick"
         >
         <template #title="item">
@@ -106,7 +106,7 @@ const column:Array<columnItemType> = [
     },
 ]
 
-const dates = [
+const datas = [
     {
         select:'中国石化',
         newPrice:20,
@@ -279,14 +279,14 @@ const dates = [
     },
 ]
 
-let tableDates = reactive(dates)
+let tableDatas = reactive(datas)
 
 const change = ()=>{
-    tableDates = dates
-    console.log(3333,tableDates);
+    tableDatas = datas
+    console.log(3333,tableDatas);
     setTimeout(()=>{
-        tableDates = dates.reverse()
-        console.log(4444,tableDates);
+        tableDatas = datas.reverse()
+        console.log(4444,tableDatas);
     },1000
     )
 }

@@ -290,7 +290,7 @@ function useResize(fn) {
     });
   });
 }
-const _withScopeId = (n) => (pushScopeId("data-v-039b2978"), n = n(), popScopeId(), n);
+const _withScopeId = (n) => (pushScopeId("data-v-95f74e6d"), n = n(), popScopeId(), n);
 const _hoisted_1 = { class: "table-header" };
 const _hoisted_2 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createElementVNode("div", { class: "mark" }, null, -1));
 const _hoisted_3 = [
@@ -308,7 +308,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     headerHeight: { default: 60 },
     rowHeight: { default: 100 },
     column: null,
-    tableDates: { default: () => [] },
+    tableDatas: { default: () => [] },
     fixedHeader: { type: Boolean, default: true },
     isClick: { type: Boolean, default: true },
     disable: { type: Boolean, default: false },
@@ -500,7 +500,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       resetMove
     ]);
     watchEffect(() => {
-      if (props.tableDates.length >= props.rowNum) {
+      if (props.tableDatas.length >= props.rowNum) {
         tableHeight.value = Math.max(
           props.rowHeight * props.rowNum,
           props.minTableHeight
@@ -573,7 +573,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
               width: handleCellSize(unref(firstColumn).width)
             })
           }, [
-            (openBlock(true), createElementBlock(Fragment, null, renderList(props.tableDates, (item, index) => {
+            (openBlock(true), createElementBlock(Fragment, null, renderList(props.tableDatas, (item, index) => {
               return openBlock(), createElementBlock("div", {
                 class: normalizeClass(["table-row-column", "first-table-row-column"]),
                 style: normalizeStyle({
@@ -594,7 +594,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
             }), 256))
           ], 4),
           createElementVNode("section", _hoisted_4, [
-            (openBlock(true), createElementBlock(Fragment, null, renderList(props.tableDates, (item, index) => {
+            (openBlock(true), createElementBlock(Fragment, null, renderList(props.tableDatas, (item, index) => {
               return openBlock(), createBlock(H5TableRow, {
                 key: index,
                 "data-item": item,
@@ -627,8 +627,8 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const h5Table_vue_vue_type_style_index_0_scoped_039b2978_lang = "";
-const h5Table = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-039b2978"]]);
+const h5Table_vue_vue_type_style_index_0_scoped_95f74e6d_lang = "";
+const h5Table = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-95f74e6d"]]);
 export {
   h5Table as H5Table
 };

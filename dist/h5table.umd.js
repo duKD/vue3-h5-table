@@ -293,7 +293,7 @@
       });
     });
   }
-  const _withScopeId = (n) => (vue.pushScopeId("data-v-039b2978"), n = n(), vue.popScopeId(), n);
+  const _withScopeId = (n) => (vue.pushScopeId("data-v-95f74e6d"), n = n(), vue.popScopeId(), n);
   const _hoisted_1 = { class: "table-header" };
   const _hoisted_2 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ vue.createElementVNode("div", { class: "mark" }, null, -1));
   const _hoisted_3 = [
@@ -311,7 +311,7 @@
       headerHeight: { default: 60 },
       rowHeight: { default: 100 },
       column: null,
-      tableDates: { default: () => [] },
+      tableDatas: { default: () => [] },
       fixedHeader: { type: Boolean, default: true },
       isClick: { type: Boolean, default: true },
       disable: { type: Boolean, default: false },
@@ -503,7 +503,7 @@
         resetMove
       ]);
       vue.watchEffect(() => {
-        if (props.tableDates.length >= props.rowNum) {
+        if (props.tableDatas.length >= props.rowNum) {
           tableHeight.value = Math.max(
             props.rowHeight * props.rowNum,
             props.minTableHeight
@@ -576,7 +576,7 @@
                 width: handleCellSize(vue.unref(firstColumn).width)
               })
             }, [
-              (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(props.tableDates, (item, index) => {
+              (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(props.tableDatas, (item, index) => {
                 return vue.openBlock(), vue.createElementBlock("div", {
                   class: vue.normalizeClass(["table-row-column", "first-table-row-column"]),
                   style: vue.normalizeStyle({
@@ -597,7 +597,7 @@
               }), 256))
             ], 4),
             vue.createElementVNode("section", _hoisted_4, [
-              (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(props.tableDates, (item, index) => {
+              (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(props.tableDatas, (item, index) => {
                 return vue.openBlock(), vue.createBlock(H5TableRow, {
                   key: index,
                   "data-item": item,
@@ -630,8 +630,8 @@
       };
     }
   });
-  const h5Table_vue_vue_type_style_index_0_scoped_039b2978_lang = "";
-  const h5Table = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-039b2978"]]);
+  const h5Table_vue_vue_type_style_index_0_scoped_95f74e6d_lang = "";
+  const h5Table = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-95f74e6d"]]);
   exports2.H5Table = h5Table;
   Object.defineProperty(exports2, Symbol.toStringTag, { value: "Module" });
 });

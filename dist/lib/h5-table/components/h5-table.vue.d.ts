@@ -25,7 +25,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         type: __PropType<columnItemType[]>;
         required: true;
     };
-    tableDates: {
+    tableDatas: {
         type: __PropType<any[]>;
         required: true;
         default: () => never[];
@@ -113,7 +113,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         type: __PropType<columnItemType[]>;
         required: true;
     };
-    tableDates: {
+    tableDatas: {
         type: __PropType<any[]>;
         required: true;
         default: () => never[];
@@ -185,7 +185,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
     rowNum: number | undefined;
     headerHeight: number | undefined;
     rowHeight: number | undefined;
-    tableDates: any[];
+    tableDatas: any[];
     fixedHeader: boolean | undefined;
     isClick: boolean | undefined;
     disable: boolean | undefined;

@@ -48,7 +48,7 @@
       }"
     >
       <div
-        v-for="(item, index) in props.tableDates"
+        v-for="(item, index) in props.tableDatas"
         :class="['table-row-column', 'first-table-row-column']"
         :style="{
           width: handleCellSize(firstColumn.width),
@@ -68,7 +68,7 @@
     </section>
     <section id="table-content" class="table-content">
       <h5-table-row
-        v-for="(item, index) in props.tableDates"
+        v-for="(item, index) in props.tableDatas"
         :key="index"
         :data-item="item"
         :column="props.column"
@@ -111,7 +111,7 @@ type propsType = {
   headerHeight?: number; // 头部默认高度
   rowHeight?: number; //每行数据的默认高度
   column: Array<columnItemType>;
-  tableDates: Array<any>;
+  tableDatas: Array<any>;
   fixedHeader?: boolean; // 是否固定表头
   isClick?: boolean; // 是否需要触发行点击事件
   disable?: boolean; // 是否启用下拉加载
@@ -146,7 +146,7 @@ const props = withDefaults(defineProps<propsType>(), {
   rowNum: 6,
   headerHeight: 60,
   rowHeight: 100,
-  tableDates: () => [],
+  tableDatas: () => [],
   fixedHeader: true,
   isClick: true,
   disable: false, // 是否启用下拉加载
@@ -372,7 +372,7 @@ useResize([
 ]);
 
 watchEffect(() => {
-  if (props.tableDates.length >= props.rowNum) {
+  if (props.tableDatas.length >= props.rowNum) {
     tableHeight.value = Math.max(
       props.rowHeight * props.rowNum,
       props.minTableHeight
