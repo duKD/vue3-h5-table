@@ -1,5 +1,6 @@
 import useTouchMoveLeftAndRight from "./useTouchMoveLeftAndRight";
 import { onMounted, ref, type Ref } from "vue";
+import useScroll from "./useScroll";
 
 //计算左右能移动的 px 位移
 export default function useGetTransformX(
@@ -29,7 +30,7 @@ export default function useGetTransformX(
         target.value.scrollHeight - target.value.scrollTop <
         target.value.clientHeight + offset
       ) {
-        disable.value && bottomLoadEvent();
+        bottomLoadEvent();
       }
     }
   };
@@ -58,12 +59,13 @@ export default function useGetTransformX(
         event.stopPropagation();
       }
     }
-
-    if (distanY.value <= 0) {
-      handleBottom();
-    }
   };
 
+  useScroll(target, () => {
+    if (distanY.value <= 0) {
+      disable.value && handleBottom();
+    }
+  });
   onMounted(() => {
     handleBottom();
   });

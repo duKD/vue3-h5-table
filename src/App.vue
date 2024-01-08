@@ -250,7 +250,7 @@ const onload = () => {
   setTimeout(() => {
     let len = tableDatas.value.length;
     tableDatas.value = tableDatas.value.concat(
-      Array.from({ length: 100 }).map((item, index) => {
+      Array.from({ length: 10 }).map((item, index) => {
         return {
           id: len + index,
           select: "三年二班",

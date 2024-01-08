@@ -80,9 +80,9 @@ export default function useTouchMoveLeftAndRight(
   watch(target, () => {
     if (target.value) {
       let targetDom = target.value;
-      targetDom.addEventListener("touchstart", startHandle);
-      targetDom.addEventListener("touchmove", moveHandle);
-      targetDom.addEventListener("touchend", endHandle);
+      targetDom.addEventListener("touchstart", startHandle, { passive: false });
+      targetDom.addEventListener("touchmove", moveHandle, { passive: false });
+      targetDom.addEventListener("touchend", endHandle, { passive: false });
     }
   });
 

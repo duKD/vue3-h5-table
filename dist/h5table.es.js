@@ -196,9 +196,9 @@ function useTouchMoveLeftAndRight(target, options) {
   watch(target, () => {
     if (target.value) {
       let targetDom = target.value;
-      targetDom.addEventListener("touchstart", startHandle);
-      targetDom.addEventListener("touchmove", moveHandle);
-      targetDom.addEventListener("touchend", endHandle);
+      targetDom.addEventListener("touchstart", startHandle, { passive: false });
+      targetDom.addEventListener("touchmove", moveHandle, { passive: false });
+      targetDom.addEventListener("touchend", endHandle, { passive: false });
     }
   });
   onUnmounted(() => {
@@ -209,6 +209,25 @@ function useTouchMoveLeftAndRight(target, options) {
     }
   });
   return [distanX, distanY];
+}
+function useScroll(target, handelScroll) {
+  const handelScrollBase = () => {
+    handelScroll();
+  };
+  watch(target, () => {
+    if (target.value) {
+      let targetDom = target.value;
+      targetDom.addEventListener("scroll", handelScrollBase, {
+        passive: false
+      });
+    }
+  });
+  onUnmounted(() => {
+    if (target.value) {
+      target.value.removeEventListener("scroll", handelScrollBase);
+    }
+  });
+  return [];
 }
 function useGetTransformX(target, tablewidth, tableContent, disable, bottomLoadEvent, offset, handleTransform, stopPropagation = true) {
   const previousX = ref(0);
@@ -221,7 +240,7 @@ function useGetTransformX(target, tablewidth, tableContent, disable, bottomLoadE
   const handleBottom = () => {
     if (target.value) {
       if (target.value.scrollHeight - target.value.scrollTop < target.value.clientHeight + offset) {
-        disable.value && bottomLoadEvent();
+        bottomLoadEvent();
       }
     }
   };
@@ -247,10 +266,12 @@ function useGetTransformX(target, tablewidth, tableContent, disable, bottomLoadE
         event.stopPropagation();
       }
     }
-    if (distanY.value <= 0) {
-      handleBottom();
-    }
   };
+  useScroll(target, () => {
+    if (distanY.value <= 0) {
+      disable.value && handleBottom();
+    }
+  });
   onMounted(() => {
     handleBottom();
   });
