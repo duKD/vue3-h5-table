@@ -49,6 +49,7 @@
     >
       <div
         v-for="(item, index) in props.tableDatas"
+        :key="'table-row-column_' + index"
         :class="['table-row-column', 'first-table-row-column']"
         :style="{
           width: handleCellSize(firstColumn.width),
@@ -60,6 +61,7 @@
           :key="index"
           :dataValue="firstColumn.dataIndex ? item[firstColumn.dataIndex] : ''"
           :dataItem="item"
+          :dataIndex="index"
           :render="firstColumn.render"
           :slotKey="firstColumn.slotKey"
           :slots="$slots"
@@ -71,6 +73,7 @@
         v-for="(item, index) in props.tableDatas"
         :key="index"
         :data-item="item"
+        :data-index="index"
         :column="props.column"
         :height="props.rowHeight"
         :slots="$slots"

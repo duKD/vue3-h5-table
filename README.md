@@ -41,10 +41,10 @@ npm i vue3-h5-table
           :table-datas="datas"
           @row-click="handleClick"
         >
-        <template #title="item">
+        <template #title="{ item, index}">
             <div  class='title'>{{ item.select }}</div>
         </template>
-        <template #categoryOrAmount="item">
+        <template #categoryOrAmount="{ item, index}">
             <section class="categoryOrAmount">
                 <div>{{ item.category===1?'买入':'卖出' }}</div>
                 <div>{{ item.amount }}</div>
