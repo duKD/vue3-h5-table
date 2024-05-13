@@ -4,7 +4,7 @@
   "use strict";
   const H5TableCell = (props) => {
     if (props.slots && props.slotKey && props.slots[props.slotKey]) {
-      return props.slots[props.slotKey](props.dataItem);
+      return props.slots[props.slotKey]({ item: props.dataItem, index: props.dataIndex });
     }
     if (props.render) {
       return props.render(vue.h, props.dataItem);
@@ -22,10 +22,11 @@
     __name: "h5-table-row",
     props: {
       column: { default: () => [] },
-      dataItem: null,
-      height: null,
-      slots: null,
-      rootValue: null
+      dataIndex: {},
+      dataItem: {},
+      height: {},
+      slots: {},
+      rootValue: {}
     },
     setup(__props) {
       const props = __props;
@@ -33,6 +34,7 @@
         return vue.openBlock(), vue.createElementBlock("section", _hoisted_1$2, [
           (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(props.column, (item, index) => {
             return vue.openBlock(), vue.createElementBlock("div", {
+              key: "table-row-column_" + index,
               class: vue.normalizeClass(["table-row-column", index === 0 ? "first-table-row-column" : ""]),
               style: vue.normalizeStyle({
                 width: vue.unref(cellSize)(item.width, props.rootValue),
@@ -43,18 +45,19 @@
               (vue.openBlock(), vue.createBlock(vue.unref(H5TableCell), {
                 key: index,
                 dataValue: item.dataIndex ? props.dataItem[item.dataIndex] : "",
+                dataIndex: props.dataIndex,
                 dataItem: props.dataItem,
                 render: item.render,
                 slotKey: item.slotKey,
                 slots: props.slots
-              }, null, 8, ["dataValue", "dataItem", "render", "slotKey", "slots"]))
+              }, null, 8, ["dataValue", "dataIndex", "dataItem", "render", "slotKey", "slots"]))
             ], 6);
-          }), 256))
+          }), 128))
         ]);
       };
     }
   });
-  const h5TableRow_vue_vue_type_style_index_0_scoped_2d7b65cf_lang = "";
+  const h5TableRow_vue_vue_type_style_index_0_scoped_98d9cd3a_lang = "";
   const _export_sfc = (sfc, props) => {
     const target = sfc.__vccOpts || sfc;
     for (const [key, val] of props) {
@@ -62,8 +65,8 @@
     }
     return target;
   };
-  const H5TableRow = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-2d7b65cf"]]);
-  const _withScopeId$1 = (n) => (vue.pushScopeId("data-v-e3bb5d1c"), n = n(), vue.popScopeId(), n);
+  const H5TableRow = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-98d9cd3a"]]);
+  const _withScopeId$1 = (n) => (vue.pushScopeId("data-v-e6fda73f"), n = n(), vue.popScopeId(), n);
   const _hoisted_1$1 = ["onClick"];
   const _hoisted_2$1 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ vue.createElementVNode("i", { class: "sort-caret ascending" }, null, -1));
   const _hoisted_3$1 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ vue.createElementVNode("i", { class: "sort-caret descending" }, null, -1));
@@ -76,13 +79,14 @@
     props: {
       column: { default: () => [] },
       height: { default: 60 },
-      slots: null,
-      rootValue: null
+      slots: {},
+      rootValue: {}
     },
     emits: ["handleHeadSortClick"],
-    setup(__props, { expose, emit: emits }) {
-      const props = __props;
+    setup(__props, { expose: __expose, emit: __emit }) {
       const sortStatus = vue.ref({});
+      const props = __props;
+      const emits = __emit;
       const titleRef = vue.ref(null);
       const changeSortStatus = (item) => {
         if (!item.dataIndex || !item.sortable)
@@ -99,7 +103,7 @@
           sortStatus.value[item.dataIndex]
         );
       };
-      expose({
+      __expose({
         titleRef
       });
       return (_ctx, _cache) => {
@@ -110,6 +114,7 @@
         }, [
           (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(props.column, (item, index) => {
             return vue.openBlock(), vue.createElementBlock("div", {
+              key: index,
               class: vue.normalizeClass(["table-row-column", index === 0 ? "first-table-row-column" : ""]),
               style: vue.normalizeStyle({
                 width: vue.unref(cellSize)(item.width, props.rootValue),
@@ -120,10 +125,11 @@
             }, [
               (vue.openBlock(), vue.createBlock(vue.unref(H5TableCell), {
                 key: index,
+                dataIndex: index,
                 dataValue: item.title,
                 slotKey: item.slotTitleKey,
                 slots: props.slots
-              }, null, 8, ["dataValue", "slotKey", "slots"])),
+              }, null, 8, ["dataIndex", "dataValue", "slotKey", "slots"])),
               item.sortable && item.dataIndex ? (vue.openBlock(), vue.createElementBlock("span", {
                 key: 0,
                 class: vue.normalizeClass([
@@ -133,13 +139,13 @@
                 ])
               }, _hoisted_4$1, 2)) : vue.createCommentVNode("", true)
             ], 14, _hoisted_1$1);
-          }), 256))
+          }), 128))
         ], 512);
       };
     }
   });
-  const h5TableHeader_vue_vue_type_style_index_0_scoped_e3bb5d1c_lang = "";
-  const H5TableHeader = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-e3bb5d1c"]]);
+  const h5TableHeader_vue_vue_type_style_index_0_scoped_e6fda73f_lang = "";
+  const H5TableHeader = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-e6fda73f"]]);
   const getAngle = (x, y) => {
     return Math.atan2(y, x) * 180 / Math.PI;
   };
@@ -314,7 +320,7 @@
       });
     });
   }
-  const _withScopeId = (n) => (vue.pushScopeId("data-v-95f74e6d"), n = n(), vue.popScopeId(), n);
+  const _withScopeId = (n) => (vue.pushScopeId("data-v-03f10238"), n = n(), vue.popScopeId(), n);
   const _hoisted_1 = { class: "table-header" };
   const _hoisted_2 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ vue.createElementVNode("div", { class: "mark" }, null, -1));
   const _hoisted_3 = [
@@ -331,7 +337,7 @@
       rowNum: { default: 6 },
       headerHeight: { default: 60 },
       rowHeight: { default: 100 },
-      column: null,
+      column: {},
       tableDatas: { default: () => [] },
       fixedHeader: { type: Boolean, default: true },
       isClick: { type: Boolean, default: true },
@@ -346,8 +352,7 @@
       rootValue: { default: 75 }
     },
     emits: ["rowClick", "handleHeadSortClick", "update:loading", "update:error", "load"],
-    setup(__props, { expose, emit: emits }) {
-      const props = __props;
+    setup(__props, { expose: __expose, emit: __emit }) {
       const tableHeight = vue.ref(600);
       const tableWidth = vue.ref(0);
       const tableContent = vue.ref(0);
@@ -355,6 +360,8 @@
       const tableContainerRef = vue.ref(null);
       const tableContentEL = vue.ref(null);
       const rowDownMarkTop = vue.ref(0);
+      const props = __props;
+      const emits = __emit;
       const disable = vue.computed(() => props.disable);
       const moreMark = vue.ref(false);
       const handleCellSize = (num) => {
@@ -542,7 +549,7 @@
         },
         { deep: true }
       );
-      expose({
+      __expose({
         handleDom: realHandleDom,
         tableRef
       });
@@ -552,15 +559,15 @@
             vue.createElementVNode("div", {
               class: "fixed-title-mark",
               style: vue.normalizeStyle({
-                width: handleCellSize(vue.unref(firstColumn).width),
+                width: handleCellSize(firstColumn.value.width),
                 height: handleCellSize(props.headerHeight),
-                textAlign: vue.unref(firstColumn).align || "center"
+                textAlign: firstColumn.value.align || "center"
               })
             }, [
               (vue.openBlock(), vue.createBlock(vue.unref(H5TableCell), {
                 key: Math.random(),
-                dataValue: vue.unref(firstColumn).title,
-                slotKey: vue.unref(firstColumn).slotTitleKey,
+                dataValue: firstColumn.value.title,
+                slotKey: firstColumn.value.slotTitleKey,
                 slots: _ctx.$slots
               }, null, 8, ["dataValue", "slotKey", "slots"]))
             ], 4),
@@ -594,46 +601,49 @@
             vue.createElementVNode("section", {
               class: "first-column",
               style: vue.normalizeStyle({
-                width: handleCellSize(vue.unref(firstColumn).width)
+                width: handleCellSize(firstColumn.value.width)
               })
             }, [
               (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(props.tableDatas, (item, index) => {
                 return vue.openBlock(), vue.createElementBlock("div", {
+                  key: "table-row-column_" + index,
                   class: vue.normalizeClass(["table-row-column", "first-table-row-column"]),
                   style: vue.normalizeStyle({
-                    width: handleCellSize(vue.unref(firstColumn).width),
+                    width: handleCellSize(firstColumn.value.width),
                     height: handleCellSize(props.rowHeight),
-                    textAlign: vue.unref(firstColumn).align || "center"
+                    textAlign: firstColumn.value.align || "center"
                   })
                 }, [
                   (vue.openBlock(), vue.createBlock(vue.unref(H5TableCell), {
                     key: index,
-                    dataValue: vue.unref(firstColumn).dataIndex ? item[vue.unref(firstColumn).dataIndex] : "",
+                    dataValue: firstColumn.value.dataIndex ? item[firstColumn.value.dataIndex] : "",
                     dataItem: item,
-                    render: vue.unref(firstColumn).render,
-                    slotKey: vue.unref(firstColumn).slotKey,
+                    dataIndex: index,
+                    render: firstColumn.value.render,
+                    slotKey: firstColumn.value.slotKey,
                     slots: _ctx.$slots
-                  }, null, 8, ["dataValue", "dataItem", "render", "slotKey", "slots"]))
+                  }, null, 8, ["dataValue", "dataItem", "dataIndex", "render", "slotKey", "slots"]))
                 ], 4);
-              }), 256))
+              }), 128))
             ], 4),
             vue.createElementVNode("section", _hoisted_4, [
               (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(props.tableDatas, (item, index) => {
                 return vue.openBlock(), vue.createBlock(H5TableRow, {
                   key: index,
                   "data-item": item,
+                  "data-index": index,
                   column: props.column,
                   height: props.rowHeight,
                   slots: _ctx.$slots,
                   rootValue: props.rootValue,
                   onTouchend: ($event) => handleClick(item, index)
-                }, null, 8, ["data-item", "column", "height", "slots", "rootValue", "onTouchend"]);
+                }, null, 8, ["data-item", "data-index", "column", "height", "slots", "rootValue", "onTouchend"]);
               }), 128))
             ]),
             vue.withDirectives(vue.createElementVNode("section", {
               class: "loading",
               onClick: tryAgain
-            }, vue.toDisplayString(vue.unref(loadingText)), 513), [
+            }, vue.toDisplayString(loadingText.value), 513), [
               [vue.vShow, props.disable]
             ]),
             vue.withDirectives(vue.createElementVNode("div", {
@@ -651,8 +661,8 @@
       };
     }
   });
-  const h5Table_vue_vue_type_style_index_0_scoped_95f74e6d_lang = "";
-  const h5Table = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-95f74e6d"]]);
+  const h5Table_vue_vue_type_style_index_0_scoped_03f10238_lang = "";
+  const h5Table = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-03f10238"]]);
   exports2.H5Table = h5Table;
   Object.defineProperty(exports2, Symbol.toStringTag, { value: "Module" });
 });

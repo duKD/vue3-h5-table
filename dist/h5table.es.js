@@ -1,7 +1,7 @@
 import { h, defineComponent, openBlock, createElementBlock, Fragment, renderList, normalizeClass, normalizeStyle, unref, createBlock, ref, createCommentVNode, pushScopeId, popScopeId, createElementVNode, reactive, watch, onUnmounted, onMounted, onBeforeUnmount, computed, watchEffect, withDirectives, vShow, createVNode, toDisplayString, renderSlot } from "vue";
 const H5TableCell = (props) => {
   if (props.slots && props.slotKey && props.slots[props.slotKey]) {
-    return props.slots[props.slotKey](props.dataItem);
+    return props.slots[props.slotKey]({ item: props.dataItem, index: props.dataIndex });
   }
   if (props.render) {
     return props.render(h, props.dataItem);
@@ -19,10 +19,11 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
   __name: "h5-table-row",
   props: {
     column: { default: () => [] },
-    dataItem: null,
-    height: null,
-    slots: null,
-    rootValue: null
+    dataIndex: {},
+    dataItem: {},
+    height: {},
+    slots: {},
+    rootValue: {}
   },
   setup(__props) {
     const props = __props;
@@ -30,6 +31,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
       return openBlock(), createElementBlock("section", _hoisted_1$2, [
         (openBlock(true), createElementBlock(Fragment, null, renderList(props.column, (item, index) => {
           return openBlock(), createElementBlock("div", {
+            key: "table-row-column_" + index,
             class: normalizeClass(["table-row-column", index === 0 ? "first-table-row-column" : ""]),
             style: normalizeStyle({
               width: unref(cellSize)(item.width, props.rootValue),
@@ -40,18 +42,19 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
             (openBlock(), createBlock(unref(H5TableCell), {
               key: index,
               dataValue: item.dataIndex ? props.dataItem[item.dataIndex] : "",
+              dataIndex: props.dataIndex,
               dataItem: props.dataItem,
               render: item.render,
               slotKey: item.slotKey,
               slots: props.slots
-            }, null, 8, ["dataValue", "dataItem", "render", "slotKey", "slots"]))
+            }, null, 8, ["dataValue", "dataIndex", "dataItem", "render", "slotKey", "slots"]))
           ], 6);
-        }), 256))
+        }), 128))
       ]);
     };
   }
 });
-const h5TableRow_vue_vue_type_style_index_0_scoped_2d7b65cf_lang = "";
+const h5TableRow_vue_vue_type_style_index_0_scoped_98d9cd3a_lang = "";
 const _export_sfc = (sfc, props) => {
   const target = sfc.__vccOpts || sfc;
   for (const [key, val] of props) {
@@ -59,8 +62,8 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const H5TableRow = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-2d7b65cf"]]);
-const _withScopeId$1 = (n) => (pushScopeId("data-v-e3bb5d1c"), n = n(), popScopeId(), n);
+const H5TableRow = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-98d9cd3a"]]);
+const _withScopeId$1 = (n) => (pushScopeId("data-v-e6fda73f"), n = n(), popScopeId(), n);
 const _hoisted_1$1 = ["onClick"];
 const _hoisted_2$1 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createElementVNode("i", { class: "sort-caret ascending" }, null, -1));
 const _hoisted_3$1 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createElementVNode("i", { class: "sort-caret descending" }, null, -1));
@@ -73,13 +76,14 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
   props: {
     column: { default: () => [] },
     height: { default: 60 },
-    slots: null,
-    rootValue: null
+    slots: {},
+    rootValue: {}
   },
   emits: ["handleHeadSortClick"],
-  setup(__props, { expose, emit: emits }) {
-    const props = __props;
+  setup(__props, { expose: __expose, emit: __emit }) {
     const sortStatus = ref({});
+    const props = __props;
+    const emits = __emit;
     const titleRef = ref(null);
     const changeSortStatus = (item) => {
       if (!item.dataIndex || !item.sortable)
@@ -96,7 +100,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
         sortStatus.value[item.dataIndex]
       );
     };
-    expose({
+    __expose({
       titleRef
     });
     return (_ctx, _cache) => {
@@ -107,6 +111,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
       }, [
         (openBlock(true), createElementBlock(Fragment, null, renderList(props.column, (item, index) => {
           return openBlock(), createElementBlock("div", {
+            key: index,
             class: normalizeClass(["table-row-column", index === 0 ? "first-table-row-column" : ""]),
             style: normalizeStyle({
               width: unref(cellSize)(item.width, props.rootValue),
@@ -117,10 +122,11 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
           }, [
             (openBlock(), createBlock(unref(H5TableCell), {
               key: index,
+              dataIndex: index,
               dataValue: item.title,
               slotKey: item.slotTitleKey,
               slots: props.slots
-            }, null, 8, ["dataValue", "slotKey", "slots"])),
+            }, null, 8, ["dataIndex", "dataValue", "slotKey", "slots"])),
             item.sortable && item.dataIndex ? (openBlock(), createElementBlock("span", {
               key: 0,
               class: normalizeClass([
@@ -130,13 +136,13 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
               ])
             }, _hoisted_4$1, 2)) : createCommentVNode("", true)
           ], 14, _hoisted_1$1);
-        }), 256))
+        }), 128))
       ], 512);
     };
   }
 });
-const h5TableHeader_vue_vue_type_style_index_0_scoped_e3bb5d1c_lang = "";
-const H5TableHeader = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-e3bb5d1c"]]);
+const h5TableHeader_vue_vue_type_style_index_0_scoped_e6fda73f_lang = "";
+const H5TableHeader = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-e6fda73f"]]);
 const getAngle = (x, y) => {
   return Math.atan2(y, x) * 180 / Math.PI;
 };
@@ -311,7 +317,7 @@ function useResize(fn) {
     });
   });
 }
-const _withScopeId = (n) => (pushScopeId("data-v-95f74e6d"), n = n(), popScopeId(), n);
+const _withScopeId = (n) => (pushScopeId("data-v-03f10238"), n = n(), popScopeId(), n);
 const _hoisted_1 = { class: "table-header" };
 const _hoisted_2 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createElementVNode("div", { class: "mark" }, null, -1));
 const _hoisted_3 = [
@@ -328,7 +334,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     rowNum: { default: 6 },
     headerHeight: { default: 60 },
     rowHeight: { default: 100 },
-    column: null,
+    column: {},
     tableDatas: { default: () => [] },
     fixedHeader: { type: Boolean, default: true },
     isClick: { type: Boolean, default: true },
@@ -343,8 +349,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     rootValue: { default: 75 }
   },
   emits: ["rowClick", "handleHeadSortClick", "update:loading", "update:error", "load"],
-  setup(__props, { expose, emit: emits }) {
-    const props = __props;
+  setup(__props, { expose: __expose, emit: __emit }) {
     const tableHeight = ref(600);
     const tableWidth = ref(0);
     const tableContent = ref(0);
@@ -352,6 +357,8 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     const tableContainerRef = ref(null);
     const tableContentEL = ref(null);
     const rowDownMarkTop = ref(0);
+    const props = __props;
+    const emits = __emit;
     const disable = computed(() => props.disable);
     const moreMark = ref(false);
     const handleCellSize = (num) => {
@@ -539,7 +546,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       },
       { deep: true }
     );
-    expose({
+    __expose({
       handleDom: realHandleDom,
       tableRef
     });
@@ -549,15 +556,15 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
           createElementVNode("div", {
             class: "fixed-title-mark",
             style: normalizeStyle({
-              width: handleCellSize(unref(firstColumn).width),
+              width: handleCellSize(firstColumn.value.width),
               height: handleCellSize(props.headerHeight),
-              textAlign: unref(firstColumn).align || "center"
+              textAlign: firstColumn.value.align || "center"
             })
           }, [
             (openBlock(), createBlock(unref(H5TableCell), {
               key: Math.random(),
-              dataValue: unref(firstColumn).title,
-              slotKey: unref(firstColumn).slotTitleKey,
+              dataValue: firstColumn.value.title,
+              slotKey: firstColumn.value.slotTitleKey,
               slots: _ctx.$slots
             }, null, 8, ["dataValue", "slotKey", "slots"]))
           ], 4),
@@ -591,46 +598,49 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
           createElementVNode("section", {
             class: "first-column",
             style: normalizeStyle({
-              width: handleCellSize(unref(firstColumn).width)
+              width: handleCellSize(firstColumn.value.width)
             })
           }, [
             (openBlock(true), createElementBlock(Fragment, null, renderList(props.tableDatas, (item, index) => {
               return openBlock(), createElementBlock("div", {
+                key: "table-row-column_" + index,
                 class: normalizeClass(["table-row-column", "first-table-row-column"]),
                 style: normalizeStyle({
-                  width: handleCellSize(unref(firstColumn).width),
+                  width: handleCellSize(firstColumn.value.width),
                   height: handleCellSize(props.rowHeight),
-                  textAlign: unref(firstColumn).align || "center"
+                  textAlign: firstColumn.value.align || "center"
                 })
               }, [
                 (openBlock(), createBlock(unref(H5TableCell), {
                   key: index,
-                  dataValue: unref(firstColumn).dataIndex ? item[unref(firstColumn).dataIndex] : "",
+                  dataValue: firstColumn.value.dataIndex ? item[firstColumn.value.dataIndex] : "",
                   dataItem: item,
-                  render: unref(firstColumn).render,
-                  slotKey: unref(firstColumn).slotKey,
+                  dataIndex: index,
+                  render: firstColumn.value.render,
+                  slotKey: firstColumn.value.slotKey,
                   slots: _ctx.$slots
-                }, null, 8, ["dataValue", "dataItem", "render", "slotKey", "slots"]))
+                }, null, 8, ["dataValue", "dataItem", "dataIndex", "render", "slotKey", "slots"]))
               ], 4);
-            }), 256))
+            }), 128))
           ], 4),
           createElementVNode("section", _hoisted_4, [
             (openBlock(true), createElementBlock(Fragment, null, renderList(props.tableDatas, (item, index) => {
               return openBlock(), createBlock(H5TableRow, {
                 key: index,
                 "data-item": item,
+                "data-index": index,
                 column: props.column,
                 height: props.rowHeight,
                 slots: _ctx.$slots,
                 rootValue: props.rootValue,
                 onTouchend: ($event) => handleClick(item, index)
-              }, null, 8, ["data-item", "column", "height", "slots", "rootValue", "onTouchend"]);
+              }, null, 8, ["data-item", "data-index", "column", "height", "slots", "rootValue", "onTouchend"]);
             }), 128))
           ]),
           withDirectives(createElementVNode("section", {
             class: "loading",
             onClick: tryAgain
-          }, toDisplayString(unref(loadingText)), 513), [
+          }, toDisplayString(loadingText.value), 513), [
             [vShow, props.disable]
           ]),
           withDirectives(createElementVNode("div", {
@@ -648,8 +658,8 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const h5Table_vue_vue_type_style_index_0_scoped_95f74e6d_lang = "";
-const h5Table = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-95f74e6d"]]);
+const h5Table_vue_vue_type_style_index_0_scoped_03f10238_lang = "";
+const h5Table = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-03f10238"]]);
 export {
   h5Table as H5Table
 };
