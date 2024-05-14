@@ -1,19 +1,23 @@
 <template>
   <section class="table-header">
-    <div
-      class="fixed-title-mark"
-      :style="{
-        width: handleCellSize(firstColumn.width),
-        height: handleCellSize(props.headerHeight),
-        textAlign: firstColumn.align || 'center',
-      }"
-    >
-      <h5-table-cell
-        :key="Math.random()"
-        :dataValue="firstColumn.title"
-        :slotKey="firstColumn.slotTitleKey"
-        :slots="$slots"
-      />
+    <div class="fixed-title-header">
+      <div
+        class="fixed-title-mark"
+        v-for="(item, index) in firstColumn"
+        :key="index"
+        :style="{
+          width: handleCellSize(item.width),
+          height: handleCellSize(props.headerHeight),
+          textAlign: item.align || 'center',
+        }"
+      >
+        <h5-table-cell
+          :key="Math.random()"
+          :dataValue="item.title"
+          :slotKey="item.slotTitleKey"
+          :slots="$slots"
+        />
+      </div>
     </div>
     <div
       v-show="moreMark"
@@ -41,33 +45,37 @@
       height: handleCellSize(tableHeight),
     }"
   >
-    <section
-      class="first-column"
-      :style="{
-        width: handleCellSize(firstColumn.width),
-      }"
-    >
-      <div
-        v-for="(item, index) in props.tableDatas"
-        :key="'table-row-column_' + index"
-        :class="['table-row-column', 'first-table-row-column']"
+    <div class="first-column-wrapper">
+      <section
+        class="first-column"
+        v-for="(fcItem, index) in firstColumn"
+        :key="index"
         :style="{
-          width: handleCellSize(firstColumn.width),
-          height: handleCellSize(props.rowHeight),
-          textAlign: firstColumn.align || 'center',
+          width: handleCellSize(fcItem.width),
         }"
       >
-        <h5-table-cell
-          :key="index"
-          :dataValue="firstColumn.dataIndex ? item[firstColumn.dataIndex] : ''"
-          :dataItem="item"
-          :dataIndex="index"
-          :render="firstColumn.render"
-          :slotKey="firstColumn.slotKey"
-          :slots="$slots"
-        />
-      </div>
-    </section>
+        <div
+          v-for="(item, index) in props.tableDatas"
+          :key="'table-row-column_' + index"
+          :class="['table-row-column', 'first-table-row-column']"
+          :style="{
+            width: handleCellSize(fcItem.width),
+            height: handleCellSize(props.rowHeight),
+            textAlign: fcItem.align || 'center',
+          }"
+        >
+          <h5-table-cell
+            :key="index"
+            :dataValue="fcItem.dataIndex ? item[fcItem.dataIndex] : ''"
+            :dataItem="item"
+            :dataIndex="index"
+            :render="fcItem.render"
+            :slotKey="fcItem.slotKey"
+            :slots="$slots"
+          />
+        </div>
+      </section>
+    </div>
     <section id="table-content" class="table-content">
       <h5-table-row
         v-for="(item, index) in props.tableDatas"
@@ -286,7 +294,7 @@ const handleDom = () => {
 const realHandleDom = handleDom();
 
 const firstColumn = computed(() => {
-  return props.column[0];
+  return props.column.filter(item => item.fixedLeft);
 });
 
 //判断 左右滚动 是否触底 显示隐藏 更多的标志 防抖
@@ -418,18 +426,26 @@ defineExpose({
   position: relative;
   overflow: hidden;
 }
-.fixed-title-mark {
+.fixed-title-header{
   position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 101;
+}
+.fixed-title-mark {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: #fcfcfc;
 }
-.first-column {
+.first-column-wrapper{
   position: absolute;
   top: 0;
   z-index: 9;
+  display: flex;
+}
+.first-column {
   background-color: #fff;
   .table-row-column {
     flex-grow: 1;

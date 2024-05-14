@@ -12,6 +12,7 @@ export type columnItemType = {
   align?: "left" | "center" | "right"; // 布局
   key?: string; // 哪个列数据 作为 唯一key 值 默认 index
   render?: (h: renderType, row: any) => void; // 自定义render
+  fixedLeft?: boolean; // 是否固定在左侧
 };
 
 // 0 默认 1 升 2 降

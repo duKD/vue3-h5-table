@@ -10,5 +10,6 @@ export type columnItemType = {
     align?: "left" | "center" | "right";
     key?: string;
     render?: (h: renderType, row: any) => void;
+    fixedLeft?: boolean;
 };
 export type sortStatusType = 0 | 1 | 2;

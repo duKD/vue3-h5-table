@@ -69,6 +69,7 @@ const column: Array<columnItemType> = [
     slotKey: "title",
     slotTitleKey: "titleSlot",
     align: "left",
+    fixedLeft: true,
   },
   {
     title: "持仓/可用",
@@ -77,6 +78,7 @@ const column: Array<columnItemType> = [
     sortable: true,
     width: 200,
     align: "right",
+    fixedLeft: true,
   },
   {
     title: "现价/成本",
