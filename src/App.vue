@@ -1,20 +1,8 @@
 <template>
   <div class="position">
-    <h5-table
-      ref="h5TableRef"
-      :fixed-header="true"
-      :header-height="80"
-      :column="column"
-      :table-datas="tableDatas"
-      @row-click="rowClick"
-      @handle-head-sort-click="handleHeadSortClick"
-      v-model:error="error"
-      :is-click="true"
-      v-model:loading="loading"
-      :finish="finish"
-      disable
-      @load="onload"
-    >
+    <h5-table ref="h5TableRef" :fixed-header="true" :header-height="80" :column="column" :table-datas="tableDatas"
+      @row-click="rowClick" @handle-head-sort-click="handleHeadSortClick" v-model:error="error" :is-click="true"
+      v-model:loading="loading" :finish="finish" disable @load="onload">
       <template #titleSlot>
         <section class="nameAndMarkValueTitle">
           <div>
@@ -25,7 +13,7 @@
         </section>
       </template>
 
-      <template #title="item">
+      <template #title="{ item }">
         <section class="nameAndMarkValue">
           <div class="name">
             {{ item.select }}
@@ -34,7 +22,7 @@
           <div class="markValue">{{ item.markValue }}=={{ item.id }}</div>
         </section>
       </template>
-      <template #positionAndUse="item">
+      <template #positionAndUse="{ item }">
         <section class="positionAndUse">
           <div class="position">
             {{ item.position }}
@@ -43,7 +31,7 @@
         </section>
       </template>
 
-      <template #curAndCost="item">
+      <template #curAndCost="{ item }">
         <section class="curAndCost">
           <div class="cur">
             {{ item.cur }}
@@ -51,7 +39,7 @@
           <div class="cost">{{ item.cost }}</div>
         </section>
       </template>
-      <template #floatAndProfit="item">
+      <template #floatAndProfit="{ item }">
         <section class="floatAndProfit">
           <div class="float">{{ item.float }}</div>
           <div class="profit">{{ item.profit }}</div>
@@ -81,6 +69,7 @@ const column: Array<columnItemType> = [
     slotKey: "title",
     slotTitleKey: "titleSlot",
     align: "left",
+    fixedLeft: true,
   },
   {
     title: "持仓/可用",
@@ -89,6 +78,7 @@ const column: Array<columnItemType> = [
     sortable: true,
     width: 200,
     align: "right",
+    fixedLeft: true,
   },
   {
     title: "现价/成本",
@@ -321,13 +311,16 @@ body {
   .nameAndMarkValueTitle {
     display: flex;
   }
+
   .nameAndMarkValue {
     padding: 10px;
+
     .name {
       display: inline-block;
       position: relative;
       color: #222;
       font-size: 32px;
+
       .type {
         position: absolute;
         top: 50%;
@@ -340,6 +333,7 @@ body {
         color: #ff858d;
       }
     }
+
     .markValue {
       color: #999;
       font-size: 24px;
@@ -348,9 +342,11 @@ body {
 
   .positionAndUse {
     font-size: 28px;
+
     .position {
       color: #222;
     }
+
     .use {
       color: #999;
     }
@@ -358,9 +354,11 @@ body {
 
   .curAndCost {
     font-size: 28px;
+
     .cur {
       color: #222;
     }
+
     .cost {
       color: #999;
     }
@@ -376,6 +374,7 @@ body {
     height: 60px;
     background-color: #fcfcfc;
     align-items: center;
+
     .rowDownMark-item {
       flex-grow: 1;
       color: #309fea;

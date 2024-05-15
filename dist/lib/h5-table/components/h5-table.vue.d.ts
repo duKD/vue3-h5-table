@@ -85,10 +85,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: false;
         default: number;
     };
-}, {
-    handleDom: (height: number, index: number) => void;
-    tableRef: import("vue").Ref<HTMLElement | null>;
-}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("handleHeadSortClick" | "rowClick" | "update:loading" | "update:error" | "load")[], "handleHeadSortClick" | "rowClick" | "update:loading" | "update:error" | "load", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
+}, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("load" | "handleHeadSortClick" | "rowClick" | "update:loading" | "update:error")[], "load" | "handleHeadSortClick" | "rowClick" | "update:loading" | "update:error", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     minTableHeight: {
         type: __PropType<number | undefined>;
         required: false;
@@ -174,12 +171,13 @@ declare const _sfc_main: import("vue").DefineComponent<{
         default: number;
     };
 }>> & {
+    onLoad?: ((...args: any[]) => any) | undefined;
     onHandleHeadSortClick?: ((...args: any[]) => any) | undefined;
     onRowClick?: ((...args: any[]) => any) | undefined;
     "onUpdate:loading"?: ((...args: any[]) => any) | undefined;
     "onUpdate:error"?: ((...args: any[]) => any) | undefined;
-    onLoad?: ((...args: any[]) => any) | undefined;
 }, {
+    error: boolean | undefined;
     rootValue: number | undefined;
     minTableHeight: number | undefined;
     rowNum: number | undefined;
@@ -189,12 +187,11 @@ declare const _sfc_main: import("vue").DefineComponent<{
     fixedHeader: boolean | undefined;
     isClick: boolean | undefined;
     disable: boolean | undefined;
-    error: boolean | undefined;
     loading: boolean | undefined;
     finish: boolean | undefined;
     loadingText: string | undefined;
     errorText: string | undefined;
     finishedText: string | undefined;
     offset: number | undefined;
-}>;
+}, {}>;
 export default _sfc_main;

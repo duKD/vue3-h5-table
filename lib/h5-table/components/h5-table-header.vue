@@ -2,6 +2,7 @@
   <div ref="titleRef" class="title">
     <div
       v-for="(item, index) in props.column"
+      :key="index"
       :class="['table-row-column', index === 0 ? 'first-table-row-column' : '']"
       :style="{
         width: cellSize(item.width, props.rootValue),
@@ -12,6 +13,7 @@
     >
       <h5-table-cell
         :key="index"
+        :dataIndex="index"
         :dataValue="item.title"
         :slotKey="item.slotTitleKey"
         :slots="props.slots"

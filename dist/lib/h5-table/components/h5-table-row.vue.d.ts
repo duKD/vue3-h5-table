@@ -6,6 +6,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
         required: true;
         default: () => never[];
     };
+    dataIndex: {
+        type: __PropType<number>;
+        required: true;
+    };
     dataItem: {
         type: __PropType<any>;
         required: true;
@@ -16,7 +20,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
     };
     slots: {
         type: __PropType<Readonly<{
-            [name: string]: import("vue").Slot | undefined;
+            [name: string]: import("vue").Slot<any> | undefined;
         }>>;
         required: true;
     };
@@ -24,11 +28,15 @@ declare const _sfc_main: import("vue").DefineComponent<{
         type: __PropType<number>;
         required: true;
     };
-}, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
+}, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     column: {
         type: __PropType<columnItemType[]>;
         required: true;
         default: () => never[];
+    };
+    dataIndex: {
+        type: __PropType<number>;
+        required: true;
     };
     dataItem: {
         type: __PropType<any>;
@@ -40,7 +48,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
     };
     slots: {
         type: __PropType<Readonly<{
-            [name: string]: import("vue").Slot | undefined;
+            [name: string]: import("vue").Slot<any> | undefined;
         }>>;
         required: true;
     };
@@ -50,5 +58,5 @@ declare const _sfc_main: import("vue").DefineComponent<{
     };
 }>>, {
     column: columnItemType[];
-}>;
+}, {}>;
 export default _sfc_main;

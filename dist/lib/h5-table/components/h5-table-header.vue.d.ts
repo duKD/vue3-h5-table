@@ -13,7 +13,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
     };
     slots: {
         type: __PropType<Readonly<{
-            [name: string]: import("vue").Slot | undefined;
+            [name: string]: import("vue").Slot<any> | undefined;
         }>>;
         required: true;
     };
@@ -21,9 +21,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         type: __PropType<number>;
         required: true;
     };
-}, {
-    titleRef: import("vue").Ref<HTMLElement | null>;
-}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "handleHeadSortClick"[], "handleHeadSortClick", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
+}, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "handleHeadSortClick"[], "handleHeadSortClick", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     column: {
         type: __PropType<columnItemType[]>;
         required: true;
@@ -36,7 +34,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
     };
     slots: {
         type: __PropType<Readonly<{
-            [name: string]: import("vue").Slot | undefined;
+            [name: string]: import("vue").Slot<any> | undefined;
         }>>;
         required: true;
     };
@@ -49,5 +47,5 @@ declare const _sfc_main: import("vue").DefineComponent<{
 }, {
     column: columnItemType[];
     height: number | undefined;
-}>;
+}, {}>;
 export default _sfc_main;

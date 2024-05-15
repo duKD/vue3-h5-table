@@ -1,6 +1,7 @@
 import { type Slots, type FunctionalComponent } from "vue";
 type PropsType = {
     render?: Function;
+    dataIndex?: any;
     dataItem?: any;
     dataValue: string;
     slotKey: string | undefined;

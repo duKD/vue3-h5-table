@@ -2,6 +2,7 @@
   <section class="table-row">
     <div
       v-for="(item, index) in props.column"
+      :key="'table-row-column_' + index"
       :class="['table-row-column', index === 0 ? 'first-table-row-column' : '']"
       :style="{
         width: cellSize(item.width, props.rootValue),
@@ -12,6 +13,7 @@
       <h5-table-cell
         :key="index"
         :dataValue="item.dataIndex ? props.dataItem[item.dataIndex] : ''"
+        :dataIndex="props.dataIndex"
         :dataItem="props.dataItem"
         :render="item.render"
         :slotKey="item.slotKey"
@@ -28,6 +30,7 @@ import { cellSize } from "../utils";
 
 type propsType = {
   column: Array<columnItemType>;
+  dataIndex: number;
   dataItem: any;
   height: number;
   slots: SetupContext["slots"];
