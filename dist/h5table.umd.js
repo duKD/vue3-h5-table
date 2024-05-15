@@ -260,9 +260,11 @@
     };
     const touchmove = (event, direction) => {
       var _a;
+      console.log(direction, tableContent.value, tablewidth.value);
       if (direction) {
         event.cancelable && event.preventDefault();
         const max = tableContent.value - tablewidth.value;
+        console.log(max);
         if (max > 0) {
           const temp = Math.min(previousX.value + distanX.value, 0);
           const res = Math.max(-max, temp);
@@ -320,7 +322,7 @@
       });
     });
   }
-  const _withScopeId = (n) => (vue.pushScopeId("data-v-797e7e90"), n = n(), vue.popScopeId(), n);
+  const _withScopeId = (n) => (vue.pushScopeId("data-v-3910fb11"), n = n(), vue.popScopeId(), n);
   const _hoisted_1 = { class: "table-header" };
   const _hoisted_2 = { class: "fixed-title-header" };
   const _hoisted_3 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ vue.createElementVNode("div", { class: "mark" }, null, -1));
@@ -452,7 +454,7 @@
               pre_doms.push(item);
             });
           }
-          let rem = Number(document.documentElement.style.fontSize.replace("px", ""));
+          let rem = Number(getComputedStyle(document.documentElement).fontSize.replace("px", ""));
           const top = rowDom.getBoundingClientRect().top - tableContentEL.value.getBoundingClientRect().top;
           rowDownMarkTop.value = top + props.rowHeight / props.rootValue * rem;
         };
@@ -495,7 +497,8 @@
       const realRowHeight = vue.ref(100);
       const calculateTableContent = () => {
         if (tableContainerRef.value && tableContainerRef.value.titleRef) {
-          let rem = Number(document.documentElement.style.fontSize.replace("px", ""));
+          let rem = Number(getComputedStyle(document.documentElement).fontSize.replace("px", ""));
+          console.log(getComputedStyle(document.documentElement).fontSize);
           let children = tableContainerRef.value.titleRef.children;
           if (children.length > 0) {
             let count = 0;
@@ -503,7 +506,7 @@
               count += item.width;
             });
             tableContent.value = count / props.rootValue * rem;
-            moreMark.value = count / props.rootValue * rem > window.screen.width;
+            moreMark.value = tableContent.value > window.screen.width;
           }
         }
       };
@@ -513,7 +516,7 @@
         }
       };
       const calculateRealRowHeight = () => {
-        const rem = Number(document.documentElement.style.fontSize.replace("px", ""));
+        const rem = Number(getComputedStyle(document.documentElement).fontSize.replace("px", ""));
         realRowHeight.value = props.rowHeight / props.rootValue * rem;
       };
       vue.onMounted(() => {
@@ -673,8 +676,8 @@
       };
     }
   });
-  const h5Table_vue_vue_type_style_index_0_scoped_797e7e90_lang = "";
-  const h5Table = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-797e7e90"]]);
+  const h5Table_vue_vue_type_style_index_0_scoped_3910fb11_lang = "";
+  const h5Table = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-3910fb11"]]);
   exports2.H5Table = h5Table;
   Object.defineProperty(exports2, Symbol.toStringTag, { value: "Module" });
 });

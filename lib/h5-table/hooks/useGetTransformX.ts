@@ -42,9 +42,11 @@ export default function useGetTransformX(
   };
 
   const touchmove = (event: TouchEvent, direction: string) => {
+    console.log(direction, tableContent.value, tablewidth.value);
     if (direction) {
       event.cancelable && event.preventDefault();
       const max = tableContent.value - tablewidth.value;
+      console.log(max)
       // 只有表格内容超过了 表格外部 才让拖动
       if (max > 0) {
         const temp = Math.min(previousX.value + distanX.value, 0);

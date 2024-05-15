@@ -280,7 +280,7 @@ const handleDom = () => {
         pre_doms.push(item);
       });
     }
-    let rem = Number(document.documentElement.style.fontSize.replace("px", ""));
+    let rem = Number(getComputedStyle(document.documentElement).fontSize.replace("px", ""));
     // 计算 点击元素插槽下移距离
     const top =
       rowDom!.getBoundingClientRect().top -
@@ -337,7 +337,8 @@ const realRowHeight = ref<number>(100);
 //计算 表格内容的宽度
 const calculateTableContent = () => {
   if (tableContainerRef.value && tableContainerRef.value.titleRef) {
-    let rem = Number(document.documentElement.style.fontSize.replace("px", ""));
+    let rem = Number(getComputedStyle(document.documentElement).fontSize.replace("px", ""));
+    console.log(getComputedStyle(document.documentElement).fontSize);
     let children: HTMLCollection = tableContainerRef.value.titleRef.children;
     if (children.length > 0) {
       // 是否显示更多的标识
@@ -347,7 +348,7 @@ const calculateTableContent = () => {
       });
       tableContent.value = (count / props.rootValue) * rem;
 
-      moreMark.value = (count / props.rootValue) * rem > window.screen.width;
+      moreMark.value = tableContent.value > window.screen.width;
     }
   }
 };
@@ -359,7 +360,7 @@ const calculateTableWidth = () => {
 };
 
 const calculateRealRowHeight = () => {
-  const rem = Number(document.documentElement.style.fontSize.replace("px", ""));
+  const rem = Number(getComputedStyle(document.documentElement).fontSize.replace("px", ""));
   realRowHeight.value = (props.rowHeight / props.rootValue) * rem;
 };
 
