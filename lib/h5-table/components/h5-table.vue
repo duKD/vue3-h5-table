@@ -66,7 +66,7 @@
         />
       </div>
     </section>
-    <section id="table-content" class="table-content">
+    <section ref="tableContentEL" id="table-content" class="table-content">
       <h5-table-row
         v-for="(item, index) in props.tableDatas"
         :key="index"
@@ -353,10 +353,11 @@ const calculateRealRowHeight = () => {
 };
 
 onMounted(() => {
-  tableContentEL.value = document.querySelector("#table-content");
-  calculateTableContent();
-  calculateTableWidth();
-  calculateRealRowHeight();
+  setTimeout(() => {
+    calculateTableContent();
+    calculateTableWidth();
+    calculateRealRowHeight();
+  }, 100);
 });
 
 const recoverHandleDom = () => {

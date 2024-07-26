@@ -64,7 +64,7 @@ const _withScopeId$1 = (n) => (pushScopeId("data-v-e3bb5d1c"), n = n(), popScope
 const _hoisted_1$1 = ["onClick"];
 const _hoisted_2$1 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createElementVNode("i", { class: "sort-caret ascending" }, null, -1));
 const _hoisted_3$1 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createElementVNode("i", { class: "sort-caret descending" }, null, -1));
-const _hoisted_4$1 = [
+const _hoisted_4 = [
   _hoisted_2$1,
   _hoisted_3$1
 ];
@@ -128,7 +128,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
                 sortStatus.value[item.dataIndex] === 1 ? "is-ascending" : "",
                 sortStatus.value[item.dataIndex] === 2 ? "is-descending" : ""
               ])
-            }, _hoisted_4$1, 2)) : createCommentVNode("", true)
+            }, _hoisted_4, 2)) : createCommentVNode("", true)
           ], 14, _hoisted_1$1);
         }), 256))
       ], 512);
@@ -311,16 +311,12 @@ function useResize(fn) {
     });
   });
 }
-const _withScopeId = (n) => (pushScopeId("data-v-95f74e6d"), n = n(), popScopeId(), n);
+const _withScopeId = (n) => (pushScopeId("data-v-cfd86611"), n = n(), popScopeId(), n);
 const _hoisted_1 = { class: "table-header" };
 const _hoisted_2 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createElementVNode("div", { class: "mark" }, null, -1));
 const _hoisted_3 = [
   _hoisted_2
 ];
-const _hoisted_4 = {
-  id: "table-content",
-  class: "table-content"
-};
 const _sfc_main = /* @__PURE__ */ defineComponent({
   __name: "h5-table",
   props: {
@@ -505,10 +501,11 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       realRowHeight.value = props.rowHeight / props.rootValue * rem;
     };
     onMounted(() => {
-      tableContentEL.value = document.querySelector("#table-content");
-      calculateTableContent();
-      calculateTableWidth();
-      calculateRealRowHeight();
+      setTimeout(() => {
+        calculateTableContent();
+        calculateTableWidth();
+        calculateRealRowHeight();
+      }, 100);
     });
     const recoverHandleDom = () => {
       realHandleDom(props.rowHeight, -1);
@@ -614,7 +611,12 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
               ], 4);
             }), 256))
           ], 4),
-          createElementVNode("section", _hoisted_4, [
+          createElementVNode("section", {
+            ref_key: "tableContentEL",
+            ref: tableContentEL,
+            id: "table-content",
+            class: "table-content"
+          }, [
             (openBlock(true), createElementBlock(Fragment, null, renderList(props.tableDatas, (item, index) => {
               return openBlock(), createBlock(H5TableRow, {
                 key: index,
@@ -626,7 +628,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                 onTouchend: ($event) => handleClick(item, index)
               }, null, 8, ["data-item", "column", "height", "slots", "rootValue", "onTouchend"]);
             }), 128))
-          ]),
+          ], 512),
           withDirectives(createElementVNode("section", {
             class: "loading",
             onClick: tryAgain
@@ -648,8 +650,8 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const h5Table_vue_vue_type_style_index_0_scoped_95f74e6d_lang = "";
-const h5Table = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-95f74e6d"]]);
+const h5Table_vue_vue_type_style_index_0_scoped_cfd86611_lang = "";
+const h5Table = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-cfd86611"]]);
 export {
   h5Table as H5Table
 };
